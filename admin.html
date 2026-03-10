@@ -25,18 +25,21 @@ box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 
 button{
-padding:10px 20px;
+padding:10px 15px;
 background:#f59e0b;
 border:none;
 color:white;
 border-radius:6px;
 cursor:pointer;
+margin-top:5px;
 }
 
-input{
-padding:10px;
-width:250px;
-margin-left:10px;
+button:hover{
+background:#d97706;
+}
+
+h2{
+margin-bottom:20px;
 }
 
 </style>
@@ -44,6 +47,23 @@ margin-left:10px;
 </head>
 
 <body>
+
+<script>
+
+const adminPassword = "nader123";
+
+const pass = prompt("أدخل كلمة مرور لوحة التحكم");
+
+if(pass !== adminPassword){
+
+document.body.innerHTML = "<h2 style='text-align:center'>غير مصرح بالدخول</h2>";
+
+throw new Error("Access denied");
+
+}
+
+</script>
+
 
 <h2>لوحة التحكم</h2>
 
@@ -62,11 +82,12 @@ margin-left:10px;
 
 <h3>عرض الاشتراكات</h3>
 
-<button onclick="loadSerials()">عرض</button>
+<button onclick="loadSerials()">تحديث القائمة</button>
 
 <div id="serialList"></div>
 
 </div>
+
 
 
 <script type="module">
@@ -74,12 +95,18 @@ margin-left:10px;
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 
 import {
+
 getDatabase,
 ref,
 get,
-set
+set,
+update,
+remove
+
 }
+
 from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+
 
 
 const firebaseConfig = {
@@ -99,6 +126,7 @@ messagingSenderId: "455340592959",
 appId: "1:455340592959:web:8e4adc7dcd22d509690d8a"
 
 };
+
 
 const app = initializeApp(firebaseConfig);
 
@@ -128,7 +156,7 @@ window.generateSerial = async function(){
 
 const serial=createPart()+"-"+createPart()+"-"+createPart();
 
-document.getElementById("newSerial").innerText=serial;
+document.getElementById("newSerial").innerText="الكود الجديد: "+serial;
 
 
 
@@ -142,9 +170,17 @@ device:"",
 
 search_count:0,
 
-max_search:200
+max_search:200,
+
+last_ip:"",
+
+last_login:""
 
 });
+
+
+
+alert("تم إنشاء الاشتراك");
 
 }
 
@@ -170,11 +206,37 @@ html+=`
 
 <br>
 
-active : ${data[key].active}
+status : ${data[key].active ? "Active" : "Disabled"}
 
 <br>
 
 searches : ${data[key].search_count || 0}
+
+<br>
+
+device : ${data[key].device || "-"}
+
+<br>
+
+last ip : ${data[key].last_ip || "-"}
+
+<br>
+
+last login : ${data[key].last_login || "-"}
+
+<br><br>
+
+<button onclick="disableSerial('${key}')">
+إيقاف الاشتراك
+</button>
+
+<button onclick="enableSerial('${key}')">
+تفعيل الاشتراك
+</button>
+
+<button onclick="deleteSerial('${key}')">
+حذف الاشتراك
+</button>
 
 </div>
 
@@ -185,6 +247,54 @@ searches : ${data[key].search_count || 0}
 
 
 document.getElementById("serialList").innerHTML=html;
+
+}
+
+
+
+window.disableSerial = async function(serial){
+
+await update(ref(db,"serials/"+serial),{
+
+active:false
+
+});
+
+alert("تم إيقاف الاشتراك");
+
+loadSerials();
+
+}
+
+
+
+window.enableSerial = async function(serial){
+
+await update(ref(db,"serials/"+serial),{
+
+active:true
+
+});
+
+alert("تم تفعيل الاشتراك");
+
+loadSerials();
+
+}
+
+
+
+window.deleteSerial = async function(serial){
+
+if(confirm("هل تريد حذف الاشتراك؟")){
+
+await remove(ref(db,"serials/"+serial));
+
+alert("تم حذف الاشتراك");
+
+loadSerials();
+
+}
 
 }
 
