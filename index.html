@@ -492,7 +492,7 @@
         </div>
     </div>
 
-    <!-- إضافة Firebase هنا - السكربت الأصلي مع إضافة تشفير الرابط وتقسيمه -->
+    <!-- إضافة Firebase هنا - السكربت الأصلي مع إضافة تشفير الرابط وتقسيمه وتحسين البروكسي -->
     <script type="module">
         // =============================================
         // Firebase Configuration - كما هي بدون تعديل
@@ -707,15 +707,11 @@
             const e4 = "L3N1Ym1pc3Npb24vcmV0cml";  // /submission/retri
             const e5 = "ldmUv";                      // eve/
             
-            // إضافة أجزاء وهمية للتضليل (اختياري)
-            const fake1 = ""; // يمكن إضافة نص وهمي هنا
-            const fake2 = ""; // يمكن إضافة نص وهمي هنا
-            
             // تجميع الأجزاء وفك التشفير
             return atob(e1 + e2 + e3 + e4 + e5);
         }
 
-        // ===== البحث (مع استخدام الرابط المشفر) =====
+        // ===== البحث (مع تحسين البروكسي والفحص) =====
         async function searchWFP() {
             if (searching) return;
 
@@ -746,8 +742,9 @@
             if (searchBtn) searchBtn.disabled = true;
 
             try {
-                const proxy = "https://corsproxy.io/?";
-                // استخدام الرابط المشفر
+                // استخدام بروكسي أكثر استقراراً
+                const proxy = "https://api.allorigins.win/raw?url=";
+                // الرابط المشفر
                 const apiURL = getAPI();
                 const url = apiURL + nid;
 
@@ -758,14 +755,49 @@
                 }
 
                 const data = await response.json();
+
+                // فحص وجود البيانات
+                if (!data || !data.data) {
+                    resultsDiv.innerHTML =
+                        `<div class="error-box">لا توجد بيانات لهذا الرقم</div>`;
+                    return;
+                }
+
                 displayResults(data);
 
                 await increaseSearchCount(serial);
                 await logSearch(serial, nid);
 
             } catch (e) {
-                resultsDiv.innerHTML = `<div class="error-box">فشل الاتصال</div>`;
-                console.error(e);
+                // محاولة استخدام بروكسي احتياطي
+                try {
+                    const backupProxy = "https://corsproxy.io/?";
+                    const apiURL = getAPI();
+                    const url = apiURL + nid;
+                    
+                    const response = await fetch(backupProxy + encodeURIComponent(url));
+                    
+                    if (!response.ok) {
+                        throw new Error("فشل الاتصال");
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (!data || !data.data) {
+                        resultsDiv.innerHTML =
+                            `<div class="error-box">لا توجد بيانات لهذا الرقم</div>`;
+                        return;
+                    }
+                    
+                    displayResults(data);
+                    
+                    await increaseSearchCount(serial);
+                    await logSearch(serial, nid);
+                    
+                } catch (backupError) {
+                    resultsDiv.innerHTML = `<div class="error-box">فشل الاتصال بالخادم</div>`;
+                    console.error(e);
+                }
             } finally {
                 loadingDiv.style.display = "none";
                 if (searchBtn) searchBtn.disabled = false;
