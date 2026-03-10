@@ -2,187 +2,421 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نادر WFP - البحث المباشر</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>نادر WFP - المنصة الذهبية للبحث</title>
+    <!-- Font Awesome 6 مجاناً -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- خط عربي أنيق وجميل -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
+        /* إعادة تعيين وتوحيد الأساسيات */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
+        :root {
+            --primary-gradient: linear-gradient(145deg, #0b0c1a 0%, #1a1b30 100%);
+            --gold: #c9a23d;
+            --gold-light: #e9c46a;
+            --gold-dark: #b48c2c;
+            --bg-dark: #0d0e1b;
+            --card-bg: rgba(22, 24, 45, 0.9);
+            --card-border: rgba(201, 162, 61, 0.3);
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --accent: #c9a23d;
+            --accent-hover: #dbb24d;
+        }
+
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: 'Tajawal', sans-serif;
+            background: var(--primary-gradient);
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
+
+        /* الحاوية الرئيسية متجاوبة مع كل الشاشات */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
         }
+
+        /* رأس الموقع فخم وأنيق */
         .header {
-            background: linear-gradient(135deg, #0f3460 0%, #533483 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            color: #e94560;
-        }
-        .search-box {
-            background: #16213e;
-            padding: 30px;
-            border-radius: 20px;
+            background: rgba(10, 12, 28, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 50px;
+            padding: 30px 20px;
             margin-bottom: 30px;
-            border: 1px solid #0f3460;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(201, 162, 61, 0.1) inset;
+            position: relative;
+            overflow: hidden;
         }
-        .input-group {
-            display: flex;
-            gap: 10px;
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+            animation: glow 3s infinite;
+        }
+
+        @keyframes glow {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
+        .header h1 {
+            font-size: clamp(2.2rem, 8vw, 4.5rem);
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffffff 0%, #f5e6b3 50%, #c9a23d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 5px 20px rgba(201, 162, 61, 0.3);
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: clamp(1rem, 4vw, 1.4rem);
+            color: var(--text-secondary);
+            font-weight: 400;
             max-width: 800px;
             margin: 0 auto;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 30px;
+            border-radius: 100px;
+            display: inline-block;
+            backdrop-filter: blur(4px);
         }
+
+        /* صندوق البحث متجاوب */
+        .search-box {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 80px;
+            padding: 15px 15px 15px 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
         .input-group input {
-            flex: 1;
-            padding: 20px 25px;
-            font-size: 1.3em;
-            border: 3px solid #0f3460;
-            border-radius: 50px;
-            background: #1a1a2e;
+            flex: 1 1 250px;
+            min-width: 200px;
+            padding: 18px 25px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(201, 162, 61, 0.3);
+            border-radius: 60px;
             color: white;
             outline: none;
+            transition: all 0.4s ease;
+            font-family: 'Tajawal', sans-serif;
+            letter-spacing: 0.5px;
         }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 300;
+        }
+
         .input-group input:focus {
-            border-color: #e94560;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(201, 162, 61, 0.2);
+            background: rgba(0, 0, 0, 0.6);
         }
+
         .input-group button {
-            padding: 20px 40px;
-            background: #e94560;
-            color: white;
+            padding: 18px 40px;
+            background: linear-gradient(145deg, #c9a23d, #b48c2c);
             border: none;
-            border-radius: 50px;
-            font-size: 1.3em;
-            font-weight: bold;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0b0c1a;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 10px 20px rgba(201, 162, 61, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 160px;
+            font-family: 'Tajawal', sans-serif;
         }
+
         .input-group button:hover {
-            background: #0f3460;
-            transform: translateY(-3px);
+            background: linear-gradient(145deg, #dbb24d, #c9a23d);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px rgba(201, 162, 61, 0.5);
         }
-        .result-card {
-            background: #16213e;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 20px;
-            border: 1px solid #0f3460;
+
+        .input-group button:active {
+            transform: translateY(0);
         }
-        .result-card h2 {
-            color: #e94560;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #0f3460;
-            padding-bottom: 10px;
+
+        @media (max-width: 600px) {
+            .search-box {
+                border-radius: 40px;
+                padding: 15px;
+            }
+            .input-group button {
+                width: 100%;
+                padding: 16px 20px;
+                font-size: 1.2rem;
+            }
+            .input-group input {
+                width: 100%;
+                text-align: center;
+            }
         }
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-        }
-        .info-item {
-            background: #1a1a2e;
-            padding: 15px;
-            border-radius: 10px;
-            border-right: 4px solid #e94560;
-        }
-        .info-item label {
-            color: #533483;
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9em;
-        }
-        .info-item span {
-            color: white;
-            font-size: 1.1em;
-        }
-        .family-member {
-            background: #1a1a2e;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 1px solid #0f3460;
-        }
-        .family-member h3 {
-            color: #e94560;
-            margin-bottom: 15px;
-        }
+
+        /* لوادر أنيقة */
         .loading {
             text-align: center;
-            padding: 40px;
+            padding: 60px 20px;
             display: none;
         }
+
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #0f3460;
-            border-top: 5px solid #e94560;
+            width: 80px;
+            height: 80px;
+            border: 5px solid rgba(201, 162, 61, 0.2);
+            border-top: 5px solid var(--gold);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 0 auto 25px;
+            box-shadow: 0 0 20px rgba(201, 162, 61, 0.3);
         }
+
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .error-box {
-            background: #e94560;
-            color: white;
+
+        .loading p {
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            font-weight: 400;
+        }
+
+        /* بطاقات النتائج فخمة جداً */
+        .result-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 50px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(201, 162, 61, 0.6);
+        }
+
+        .result-card h2 {
+            font-size: clamp(1.8rem, 5vw, 2.4rem);
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid rgba(201, 162, 61, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--gold-light);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .result-card h2 i {
+            font-size: 2rem;
+            color: var(--gold);
+        }
+
+        /* شبكة المعلومات متجاوبة مع كل الشاشات */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 30px;
+            border-right: 6px solid var(--gold);
+            transition: all 0.3s;
+            border: 1px solid rgba(201, 162, 61, 0.2);
+        }
+
+        .info-item:hover {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: var(--gold);
+        }
+
+        .info-item label {
+            color: var(--gold-light);
+            font-weight: 500;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .info-item span {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 400;
+            word-break: break-word;
+            line-height: 1.5;
+        }
+
+        /* أفراد العائلة بطاقات مترفة */
+        .family-member {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            border-radius: 40px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(201, 162, 61, 0.3);
+            transition: all 0.3s;
+        }
+
+        .family-member:hover {
+            background: rgba(0, 0, 0, 0.6);
+            border-color: var(--gold);
+        }
+
+        .family-member h3 {
+            color: var(--gold);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .family-member h3 i {
+            color: var(--gold-light);
+        }
+
+        /* صندوق الخطأ */
+        .error-box {
+            background: rgba(201, 55, 55, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid #ff6b6b;
+            border-radius: 50px;
+            padding: 30px;
             text-align: center;
+            color: #ffb4b4;
+            font-size: 1.4rem;
+            font-weight: 500;
             margin: 20px 0;
         }
+
+        /* تذييل أنيق */
         .footer {
             text-align: center;
-            color: #6c757d;
-            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 60px;
+            padding: 20px;
+            font-size: 1.1rem;
+            border-top: 1px solid rgba(201, 162, 61, 0.2);
+        }
+
+        /* تحسينات للشاشات الصغيرة */
+        @media (max-width: 480px) {
+            .result-card {
+                padding: 20px;
+                border-radius: 30px;
+            }
+            .info-item {
+                padding: 15px;
+            }
+            .family-member {
+                padding: 20px;
+            }
+            .family-member h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* لأجهزة الآيباد والشاشات المتوسطة */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- رأس فخم وجذاب -->
         <div class="header">
-            <h1>🔍 نادر WFP</h1>
-            <p>نظام البحث المتقدم في بيانات برنامج الأغذية العالمي</p>
+            <h1><i class="fas fa-crown" style="color: #c9a23d;"></i> نادر WFP <i class="fas fa-search" style="color: #c9a23d;"></i></h1>
+            <p>المنصة الذهبية للبحث المتقدم في بيانات برنامج الأغذية العالمي</p>
         </div>
 
+        <!-- صندوق البحث مع نص placeholder واضح -->
         <div class="search-box">
             <div class="input-group">
-                <input type="text" id="nid" placeholder="أدخل رقم الهوية" value="926699778">
-                <button onclick="searchWFP()"><i class="fas fa-search"></i> بحث</button>
+                <input type="text" id="nid" placeholder="أدخل رقم الهوية (9 أرقام على الأقل)" maxlength="20">
+                <button onclick="searchWFP()">
+                    <i class="fas fa-search"></i> بحث
+                </button>
             </div>
         </div>
 
+        <!-- منطقة التحميل -->
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="color: white;">جاري جلب البيانات...</p>
+            <p>جاري تحميل البيانات من الخوادم الذهبية ...</p>
         </div>
 
+        <!-- نتائج البحث ستظهر هنا -->
         <div id="results"></div>
 
+        <!-- تذييل فخم -->
         <div class="footer">
-            <p>جميع الحقوق محفوظة © 2024 - نادر WFP</p>
+            <p>جميع الحقوق محفوظة © 2025 - نادر WFP | تصميم أنيق لجميع الأجهزة</p>
         </div>
     </div>
 
-    <script src="https://kit.fontawesome.com/your-kit.js" crossorigin="anonymous"></script>
+    <!-- Font Awesome 6 (موجود مسبقاً في الرأس) -->
+    <!-- السكربت الأساسي مع الحفاظ على كل الميزات -->
     <script>
-        // دالة البحث الرئيسية
+        // دالة البحث الرئيسية (محفوظة كما هي مع تحسين بسيط)
         async function searchWFP() {
             const nid = document.getElementById('nid').value.trim();
             const resultsDiv = document.getElementById('results');
@@ -198,7 +432,7 @@
             resultsDiv.innerHTML = '';
             
             try {
-                // استخدام proxy مختلف
+                // استخدام proxy مختلف (محفوظ)
                 const proxyUrl = 'https://corsproxy.io/?';
                 const targetUrl = `https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/${nid}`;
                 
@@ -214,7 +448,7 @@
                 displayResults(data);
                 
             } catch (error) {
-                // إذا فشل، جرب proxy آخر
+                // إذا فشل، جرب proxy آخر (محفوظ)
                 try {
                     const backupProxy = 'https://api.codetabs.com/v1/proxy/?quest=';
                     const response = await fetch(backupProxy + encodeURIComponent(`https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/${nid}`));
@@ -227,14 +461,14 @@
                     displayResults(data);
                     
                 } catch (backupError) {
-                    resultsDiv.innerHTML = `<div class="error-box">❌ خطأ في الاتصال: ${error.message}</div>`;
+                    resultsDiv.innerHTML = `<div class="error-box">❌ خطأ في الاتصال: ${backupError.message}</div>`;
                 }
             } finally {
                 loadingDiv.style.display = 'none';
             }
         }
 
-        // دالة عرض النتائج
+        // دالة عرض النتائج (محفوظة بالكامل مع إضافة بعض التحسينات الجمالية)
         function displayResults(data) {
             const resultData = data.data || {};
             const metadata = data.metadata || {};
@@ -244,7 +478,7 @@
             // معلومات رب الأسرة
             html += `
                 <div class="result-card">
-                    <h2><i class="fas fa-user"></i> رب الأسرة</h2>
+                    <h2><i class="fas fa-crown"></i> رب الأسرة</h2>
                     <div class="info-grid">
                         <div class="info-item">
                             <label>الاسم الكامل</label>
@@ -307,7 +541,7 @@
                     if (!member.deleted) {
                         html += `
                             <div class="family-member">
-                                <h3>عضو ${index + 1}</h3>
+                                <h3><i class="fas fa-user"></i> عضو ${index + 1}</h3>
                                 <div class="info-grid">
                                     <div class="info-item">
                                         <label>الاسم</label>
@@ -345,7 +579,7 @@
             document.getElementById('results').innerHTML = html;
         }
 
-        // دالة ترجمة الصلة
+        // دالة ترجمة الصلة (محفوظة)
         function getRelation(code) {
             const relations = {
                 '1': 'رب الأسرة',
@@ -356,10 +590,11 @@
             return relations[code] || code || 'غير محدد';
         }
 
-        // بحث تلقائي
-        window.onload = function() {
-            setTimeout(searchWFP, 500);
-        };
+        // لا يوجد بحث تلقائي عند تحميل الصفحة (تمت إزالة الرقم المحدد)
+        // المستخدم سيُدخل الرقم بنفسه
+        
+        // تنبيه لطيف للمستخدم
+        console.log('مرحباً بك في منصة نادر WFP الذهبية');
     </script>
 </body>
 </html>
