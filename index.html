@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>نادر WFP - المنصة الذهبية للبحث</title>
-    <!-- Font Awesome 6 مجاناً -->
+    <title>نادر WFP - المنصة الذهبية للبحث الدقيق</title>
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- خط عربي أنيق وجميل -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- خطوط عربية متنوعة مع تحسين القراءة -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
     <style>
         /* إعادة تعيين وتوحيد الأساسيات */
         * {
@@ -17,48 +17,56 @@
         }
 
         :root {
-            --primary-gradient: linear-gradient(145deg, #0b0c1a 0%, #1a1b30 100%);
-            --gold: #c9a23d;
-            --gold-light: #e9c46a;
-            --gold-dark: #b48c2c;
-            --bg-dark: #0d0e1b;
-            --card-bg: rgba(22, 24, 45, 0.9);
-            --card-border: rgba(201, 162, 61, 0.3);
+            --primary-gradient: linear-gradient(165deg, #0a0c1a 0%, #1a1c35 100%);
+            --gold: #d4af37;
+            --gold-light: #f1e5b3;
+            --gold-dark: #aa8c2c;
+            --bg-dark: #0d0e1d;
+            --card-bg: rgba(18, 20, 38, 0.95);
+            --card-border: rgba(212, 175, 55, 0.25);
             --text-primary: #ffffff;
-            --text-secondary: #e0e0e0;
-            --accent: #c9a23d;
-            --accent-hover: #dbb24d;
+            --text-secondary: #e5e5e5;
+            --accent: #d4af37;
+            --accent-hover: #e4c45a;
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Tajawal', 'Almarai', sans-serif;
             background: var(--primary-gradient);
             min-height: 100vh;
             padding: 15px;
             color: var(--text-primary);
-            line-height: 1.6;
+            line-height: 1.7;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            font-size: 16px;
         }
 
-        /* الحاوية الرئيسية متجاوبة مع كل الشاشات */
+        /* زيادة حجم الخط قليلاً */
+        @media (max-width: 768px) {
+            body {
+                font-size: 15px;
+            }
+        }
+
+        /* الحاوية الرئيسية */
         .container {
-            max-width: 1400px;
+            max-width: 1500px;
             margin: 0 auto;
             width: 100%;
         }
 
-        /* رأس الموقع فخم وأنيق */
+        /* رأس الموقع فخم جداً */
         .header {
-            background: rgba(10, 12, 28, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--card-border);
-            border-radius: 50px;
-            padding: 30px 20px;
-            margin-bottom: 30px;
+            background: rgba(10, 12, 30, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid var(--card-border);
+            border-radius: 70px;
+            padding: 35px 25px;
+            margin-bottom: 35px;
             text-align: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(201, 162, 61, 0.1) inset;
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(212, 175, 55, 0.15) inset;
             position: relative;
             overflow: hidden;
         }
@@ -69,112 +77,114 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 4px;
             background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
-            animation: glow 3s infinite;
+            animation: glow 4s infinite;
         }
 
         @keyframes glow {
-            0% { opacity: 0.3; }
-            50% { opacity: 1; }
-            100% { opacity: 0.3; }
+            0% { opacity: 0.2; transform: translateX(-100%); }
+            50% { opacity: 1; transform: translateX(0); }
+            100% { opacity: 0.2; transform: translateX(100%); }
         }
 
         .header h1 {
-            font-size: clamp(2.2rem, 8vw, 4.5rem);
+            font-size: clamp(2.5rem, 10vw, 5rem);
             font-weight: 900;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #ffffff 0%, #f5e6b3 50%, #c9a23d 100%);
+            margin-bottom: 15px;
+            background: linear-gradient(145deg, #ffffff 0%, #f7e9c3 40%, #d4af37 80%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 5px 20px rgba(201, 162, 61, 0.3);
-            letter-spacing: 1px;
+            text-shadow: 0 5px 25px rgba(212, 175, 55, 0.5);
+            letter-spacing: 1.5px;
         }
 
         .header p {
-            font-size: clamp(1rem, 4vw, 1.4rem);
+            font-size: clamp(1.1rem, 5vw, 1.6rem);
             color: var(--text-secondary);
             font-weight: 400;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px 30px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px 40px;
             border-radius: 100px;
             display: inline-block;
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
         }
 
         /* صندوق البحث متجاوب */
         .search-box {
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--card-border);
-            border-radius: 80px;
-            padding: 15px 15px 15px 25px;
-            margin-bottom: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid var(--card-border);
+            border-radius: 90px;
+            padding: 20px 20px 20px 30px;
+            margin-bottom: 45px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
         }
 
         .input-group {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 15px;
             align-items: center;
         }
 
         .input-group input {
-            flex: 1 1 250px;
-            min-width: 200px;
-            padding: 18px 25px;
-            font-size: 1.2rem;
+            flex: 1 1 280px;
+            min-width: 220px;
+            padding: 22px 30px;
+            font-size: 1.3rem;
             font-weight: 500;
-            background: rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(201, 162, 61, 0.3);
-            border-radius: 60px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 70px;
             color: white;
             outline: none;
             transition: all 0.4s ease;
-            font-family: 'Tajawal', sans-serif;
-            letter-spacing: 0.5px;
+            font-family: 'Tajawal', 'Almarai', sans-serif;
+            letter-spacing: 0.7px;
         }
 
         .input-group input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.6);
             font-weight: 300;
+            font-size: 1.2rem;
         }
 
         .input-group input:focus {
             border-color: var(--gold);
-            box-shadow: 0 0 0 4px rgba(201, 162, 61, 0.2);
-            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 0 5px rgba(212, 175, 55, 0.25);
+            background: rgba(0, 0, 0, 0.7);
         }
 
         .input-group button {
-            padding: 18px 40px;
-            background: linear-gradient(145deg, #c9a23d, #b48c2c);
+            padding: 22px 50px;
+            background: linear-gradient(145deg, #d4af37, #b8962c);
             border: none;
-            border-radius: 60px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #0b0c1a;
+            border-radius: 70px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #0a0c1a;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            box-shadow: 0 10px 20px rgba(201, 162, 61, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            min-width: 160px;
-            font-family: 'Tajawal', sans-serif;
+            gap: 15px;
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            min-width: 180px;
+            font-family: 'Tajawal', 'Almarai', sans-serif;
         }
 
         .input-group button:hover {
-            background: linear-gradient(145deg, #dbb24d, #c9a23d);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 30px rgba(201, 162, 61, 0.5);
+            background: linear-gradient(145deg, #e4c45a, #d4af37);
+            transform: translateY(-5px);
+            box-shadow: 0 25px 40px rgba(212, 175, 55, 0.6);
         }
 
         .input-group button:active {
@@ -183,36 +193,37 @@
 
         @media (max-width: 600px) {
             .search-box {
-                border-radius: 40px;
+                border-radius: 50px;
                 padding: 15px;
             }
             .input-group button {
                 width: 100%;
-                padding: 16px 20px;
-                font-size: 1.2rem;
+                padding: 18px 25px;
+                font-size: 1.3rem;
             }
             .input-group input {
                 width: 100%;
                 text-align: center;
+                padding: 18px 20px;
             }
         }
 
         /* لوادر أنيقة */
         .loading {
             text-align: center;
-            padding: 60px 20px;
+            padding: 70px 20px;
             display: none;
         }
 
         .spinner {
-            width: 80px;
-            height: 80px;
-            border: 5px solid rgba(201, 162, 61, 0.2);
-            border-top: 5px solid var(--gold);
+            width: 90px;
+            height: 90px;
+            border: 6px solid rgba(212, 175, 55, 0.2);
+            border-top: 6px solid var(--gold);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 25px;
-            box-shadow: 0 0 20px rgba(201, 162, 61, 0.3);
+            margin: 0 auto 30px;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
         }
 
         @keyframes spin {
@@ -222,157 +233,161 @@
 
         .loading p {
             color: var(--text-secondary);
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 400;
         }
 
-        /* بطاقات النتائج فخمة جداً */
+        /* بطاقات النتائج فخمة مع خط أكبر */
         .result-card {
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--card-border);
-            border-radius: 50px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid var(--card-border);
+            border-radius: 60px;
+            padding: 40px;
+            margin-bottom: 35px;
+            box-shadow: 0 35px 60px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s ease, border-color 0.3s;
         }
 
         .result-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(201, 162, 61, 0.6);
+            transform: translateY(-6px);
+            border-color: rgba(212, 175, 55, 0.7);
         }
 
         .result-card h2 {
-            font-size: clamp(1.8rem, 5vw, 2.4rem);
-            font-weight: 700;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid rgba(201, 162, 61, 0.5);
+            font-size: clamp(2rem, 6vw, 2.6rem);
+            font-weight: 800;
+            margin-bottom: 30px;
+            padding-bottom: 18px;
+            border-bottom: 4px solid rgba(212, 175, 55, 0.5);
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 18px;
             color: var(--gold-light);
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
         }
 
         .result-card h2 i {
-            font-size: 2rem;
+            font-size: 2.3rem;
             color: var(--gold);
         }
 
-        /* شبكة المعلومات متجاوبة مع كل الشاشات */
+        /* شبكة المعلومات مع خط أكبر */
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
         }
 
         .info-item {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(4px);
-            padding: 20px;
-            border-radius: 30px;
-            border-right: 6px solid var(--gold);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+            padding: 25px;
+            border-radius: 40px;
+            border-right: 8px solid var(--gold);
             transition: all 0.3s;
-            border: 1px solid rgba(201, 162, 61, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.3);
         }
 
         .info-item:hover {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             border-color: var(--gold);
         }
 
         .info-item label {
             color: var(--gold-light);
-            font-weight: 500;
+            font-weight: 600;
             display: block;
-            margin-bottom: 8px;
-            font-size: 1rem;
-            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            font-size: 1.15rem;
+            letter-spacing: 0.8px;
         }
 
         .info-item span {
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 400;
             word-break: break-word;
-            line-height: 1.5;
+            line-height: 1.7;
         }
 
         /* أفراد العائلة بطاقات مترفة */
         .family-member {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(4px);
-            border-radius: 40px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(201, 162, 61, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            border-radius: 50px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
             transition: all 0.3s;
         }
 
         .family-member:hover {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
             border-color: var(--gold);
         }
 
         .family-member h3 {
             color: var(--gold);
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 20px;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
 
         .family-member h3 i {
             color: var(--gold-light);
+            font-size: 1.8rem;
         }
 
         /* صندوق الخطأ */
         .error-box {
-            background: rgba(201, 55, 55, 0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid #ff6b6b;
-            border-radius: 50px;
-            padding: 30px;
+            background: rgba(180, 40, 40, 0.25);
+            backdrop-filter: blur(12px);
+            border: 2px solid #ff8a8a;
+            border-radius: 60px;
+            padding: 35px;
             text-align: center;
-            color: #ffb4b4;
-            font-size: 1.4rem;
+            color: #ffd6d6;
+            font-size: 1.5rem;
             font-weight: 500;
-            margin: 20px 0;
+            margin: 25px 0;
         }
 
         /* تذييل أنيق */
         .footer {
             text-align: center;
             color: rgba(255, 255, 255, 0.4);
-            margin-top: 60px;
-            padding: 20px;
-            font-size: 1.1rem;
-            border-top: 1px solid rgba(201, 162, 61, 0.2);
+            margin-top: 70px;
+            padding: 25px;
+            font-size: 1.2rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
         }
 
         /* تحسينات للشاشات الصغيرة */
         @media (max-width: 480px) {
             .result-card {
-                padding: 20px;
-                border-radius: 30px;
+                padding: 25px;
+                border-radius: 40px;
             }
             .info-item {
-                padding: 15px;
-            }
-            .family-member {
                 padding: 20px;
             }
+            .family-member {
+                padding: 25px;
+            }
             .family-member h3 {
-                font-size: 1.5rem;
+                font-size: 1.7rem;
+            }
+            .info-item span {
+                font-size: 1.2rem;
             }
         }
 
-        /* لأجهزة الآيباد والشاشات المتوسطة */
+        /* للأجهزة المتوسطة */
         @media (min-width: 768px) and (max-width: 1024px) {
             .info-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -382,13 +397,13 @@
 </head>
 <body>
     <div class="container">
-        <!-- رأس فخم وجذاب -->
+        <!-- رأس فخم -->
         <div class="header">
-            <h1><i class="fas fa-crown" style="color: #c9a23d;"></i> نادر WFP <i class="fas fa-search" style="color: #c9a23d;"></i></h1>
-            <p>المنصة الذهبية للبحث المتقدم في بيانات برنامج الأغذية العالمي</p>
+            <h1><i class="fas fa-crown" style="color: #d4af37;"></i> نادر WFP <i class="fas fa-search" style="color: #d4af37;"></i></h1>
+            <p>المنصة الذهبية للبحث الدقيق في بيانات برنامج الأغذية العالمي</p>
         </div>
 
-        <!-- صندوق البحث مع نص placeholder واضح -->
+        <!-- صندوق البحث -->
         <div class="search-box">
             <div class="input-group">
                 <input type="text" id="nid" placeholder="أدخل رقم الهوية (9 أرقام على الأقل)" maxlength="20">
@@ -404,19 +419,18 @@
             <p>جاري تحميل البيانات من الخوادم الذهبية ...</p>
         </div>
 
-        <!-- نتائج البحث ستظهر هنا -->
+        <!-- نتائج البحث -->
         <div id="results"></div>
 
-        <!-- تذييل فخم -->
+        <!-- تذييل -->
         <div class="footer">
-            <p>جميع الحقوق محفوظة © 2025 - نادر WFP | تصميم أنيق لجميع الأجهزة</p>
+            <p>جميع الحقوق محفوظة © 2025 - نادر WFP | تصميم أنيق ودقيق لجميع الأجهزة</p>
         </div>
     </div>
 
-    <!-- Font Awesome 6 (موجود مسبقاً في الرأس) -->
-    <!-- السكربت الأساسي مع الحفاظ على كل الميزات -->
+    <!-- السكربت الأساسي مع جميع التفاصيل الدقيقة -->
     <script>
-        // دالة البحث الرئيسية (محفوظة كما هي مع تحسين بسيط)
+        // دالة البحث الرئيسية
         async function searchWFP() {
             const nid = document.getElementById('nid').value.trim();
             const resultsDiv = document.getElementById('results');
@@ -432,7 +446,7 @@
             resultsDiv.innerHTML = '';
             
             try {
-                // استخدام proxy مختلف (محفوظ)
+                // استخدام proxy مختلف
                 const proxyUrl = 'https://corsproxy.io/?';
                 const targetUrl = `https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/${nid}`;
                 
@@ -444,11 +458,11 @@
                 
                 const data = await response.json();
                 
-                // عرض النتائج
+                // عرض النتائج مع كامل التفاصيل
                 displayResults(data);
                 
             } catch (error) {
-                // إذا فشل، جرب proxy آخر (محفوظ)
+                // إذا فشل، جرب proxy آخر
                 try {
                     const backupProxy = 'https://api.codetabs.com/v1/proxy/?quest=';
                     const response = await fetch(backupProxy + encodeURIComponent(`https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/${nid}`));
@@ -468,104 +482,244 @@
             }
         }
 
-        // دالة عرض النتائج (محفوظة بالكامل مع إضافة بعض التحسينات الجمالية)
+        // دالة عرض النتائج (شاملة كل التفاصيل)
         function displayResults(data) {
             const resultData = data.data || {};
             const metadata = data.metadata || {};
             
             let html = '';
             
-            // معلومات رب الأسرة
+            // ========== 1. معلومات رب الأسرة (كاملة جداً) ==========
             html += `
                 <div class="result-card">
-                    <h2><i class="fas fa-crown"></i> رب الأسرة</h2>
+                    <h2><i class="fas fa-crown"></i> رب الأسرة - تفاصيل كاملة</h2>
                     <div class="info-grid">
+                        <div class="info-item">
+                            <label>الاسم الأول</label>
+                            <span>${resultData.hohfirstName || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>اسم الأب</label>
+                            <span>${resultData.hohfathersName || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>اسم الجد</label>
+                            <span>${resultData.hohgrandfathersName || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>اسم العائلة</label>
+                            <span>${resultData.hohlastName || 'غير متوفر'}</span>
+                        </div>
                         <div class="info-item">
                             <label>الاسم الكامل</label>
                             <span>${resultData.hohfirstName || ''} ${resultData.hohfathersName || ''} ${resultData.hohgrandfathersName || ''} ${resultData.hohlastName || ''}</span>
                         </div>
                         <div class="info-item">
                             <label>رقم الهوية</label>
-                            <span>${resultData.documentNumber || ''}</span>
+                            <span>${resultData.documentNumber || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>نوع الوثيقة</label>
+                            <span>${resultData.documentType === 'nid' ? 'هوية وطنية' : resultData.documentType || 'غير متوفر'}</span>
                         </div>
                         <div class="info-item">
                             <label>تاريخ الميلاد</label>
-                            <span>${resultData.hohdob || ''}</span>
+                            <span>${resultData.hohdob || 'غير متوفر'}</span>
                         </div>
                         <div class="info-item">
                             <label>العمر</label>
-                            <span>${resultData.hohage || ''} سنة</span>
+                            <span>${resultData.hohage || 'غير متوفر'} سنة</span>
                         </div>
                         <div class="info-item">
                             <label>الجنس</label>
-                            <span>${resultData.hohgender === 'M' ? 'ذكر' : 'أنثى'}</span>
+                            <span>${resultData.hohgender === 'M' ? 'ذكر' : resultData.hohgender === 'F' ? 'أنثى' : 'غير متوفر'}</span>
                         </div>
                         <div class="info-item">
-                            <label>رقم الجوال</label>
-                            <span>${resultData.primaryPhoneNumber || ''}</span>
+                            <label>الحالة الاجتماعية</label>
+                            <span>${resultData.hohmaritalStatus === 'married' ? 'متزوج' : resultData.hohmaritalStatus || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>رقم الجوال الأساسي</label>
+                            <span>${resultData.primaryPhoneNumber || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>رقم الجوال الثانوي</label>
+                            <span>${resultData.secondaryPhoneNumber || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>حالة الإعاقة</label>
+                            <span>${resultData.hhpwd?.true ? 'نعم' : 'لا'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>حالة الإقامة</label>
+                            <span>${resultData.hohresidentialStatus === 1 ? 'مقيم' : resultData.hohresidentialStatus === 2 ? 'زائر' : 'غير محدد'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>حمل (رب الأسرة)</label>
+                            <span>${resultData.hohpregnant?.true ? 'نعم' : 'لا'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>رضاعة (رب الأسرة)</label>
+                            <span>${resultData.hohlactating?.true ? 'نعم' : 'لا'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>تاريخ آخر تحديث</label>
+                            <span>${resultData.beneficiaryLastTimeUpdated || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>تاريخ التعديل</label>
+                            <span>${resultData.modified_date || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>الغرض من العملية</label>
+                            <span>${resultData.purpose === 'update' ? 'تحديث' : resultData.purpose || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>حالة اللجوء الأصلية</label>
+                            <span>${resultData.refugeeStatus || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>حالة اللجوء الحالية</label>
+                            <span>${resultData.refugeeStatus1 || 'غير متوفر'}</span>
                         </div>
                     </div>
                 </div>
             `;
             
-            // معلومات الموقع
+            // ========== 2. معلومات الموقع (كاملة) ==========
             html += `
                 <div class="result-card">
-                    <h2><i class="fas fa-map-marker-alt"></i> الموقع</h2>
+                    <h2><i class="fas fa-map-marker-alt"></i> معلومات الموقع - تفاصيل كاملة</h2>
                     <div class="info-grid">
                         <div class="info-item">
-                            <label>المحافظة</label>
-                            <span>${metadata.selectData?.admin2?.label || resultData.admin2 || ''}</span>
+                            <label>المحافظة (كود)</label>
+                            <span>${resultData.admin2 || 'غير متوفر'}</span>
                         </div>
                         <div class="info-item">
-                            <label>المدينة</label>
-                            <span>${metadata.selectData?.admin3?.label || resultData.admin3 || ''}</span>
+                            <label>المحافظة (الاسم)</label>
+                            <span>${metadata.selectData?.admin2?.label || resultData.admin2 || 'غير متوفر'}</span>
                         </div>
                         <div class="info-item">
-                            <label>المنطقة</label>
-                            <span>${metadata.selectData?.admin4?.label || resultData.admin4 || ''}</span>
+                            <label>المدينة (كود)</label>
+                            <span>${resultData.admin3 || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>المدينة (الاسم)</label>
+                            <span>${metadata.selectData?.admin3?.label || resultData.admin3 || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>المنطقة (كود)</label>
+                            <span>${resultData.admin4 || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>المنطقة (الاسم)</label>
+                            <span>${metadata.selectData?.admin4?.label || resultData.admin4 || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>نوع السكن</label>
+                            <span>${resultData.adminAccomodation === 'tent' ? 'خيمة' : resultData.adminAccomodation === 'house' ? 'منزل' : resultData.adminAccomodation || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>حالة النزوح (رقم)</label>
+                            <span>${resultData.hhdisplacement || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>حالة النزوح (نص)</label>
+                            <span>${resultData.hhdisplacement === 7 ? 'نازح' : 'غير نازح'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>تاريخ النزوح</label>
+                            <span>${resultData.dateofDisplacement ? new Date(resultData.dateofDisplacement).toLocaleString('ar-EG') : 'غير متوفر'}</span>
                         </div>
                     </div>
                 </div>
             `;
             
-            // أفراد العائلة
+            // ========== 3. أفراد العائلة (كامل التفاصيل لكل فرد) ==========
             const familyMembers = resultData.family_members_information || [];
             if (familyMembers.length > 0) {
                 html += `
                     <div class="result-card">
-                        <h2><i class="fas fa-users"></i> أفراد العائلة (${familyMembers.length})</h2>
+                        <h2><i class="fas fa-users"></i> أفراد العائلة - تفاصيل كاملة (${familyMembers.length})</h2>
                 `;
                 
                 familyMembers.forEach((member, index) => {
                     if (!member.deleted) {
                         html += `
                             <div class="family-member">
-                                <h3><i class="fas fa-user"></i> عضو ${index + 1}</h3>
+                                <h3><i class="fas fa-user-circle"></i> عضو رقم ${index + 1}</h3>
                                 <div class="info-grid">
                                     <div class="info-item">
-                                        <label>الاسم</label>
+                                        <label>الاسم الأول</label>
+                                        <span>${member.hhmemberfirstName || 'غير متوفر'}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>اسم الأب</label>
+                                        <span>${member.hhmemberfathersName || 'غير متوفر'}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>اسم الجد</label>
+                                        <span>${member.hhmembergrandfathersName || 'غير متوفر'}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>اسم العائلة</label>
+                                        <span>${member.hhmemberlastName || 'غير متوفر'}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>الاسم الكامل</label>
                                         <span>${member.hhmemberfirstName || ''} ${member.hhmemberfathersName || ''} ${member.hhmemberlastName || ''}</span>
                                     </div>
                                     <div class="info-item">
                                         <label>رقم الهوية</label>
-                                        <span>${member.hhmemberdocumentNumber || ''}</span>
+                                        <span>${member.hhmemberdocumentNumber || 'غير متوفر'}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>نوع الوثيقة</label>
+                                        <span>${member.hhmemberdocumentType === 'nid' ? 'هوية وطنية' : member.hhmemberdocumentType || 'غير متوفر'}</span>
                                     </div>
                                     <div class="info-item">
                                         <label>تاريخ الميلاد</label>
-                                        <span>${member.hhmemberdob || ''}</span>
+                                        <span>${member.hhmemberdob || 'غير متوفر'}</span>
                                     </div>
                                     <div class="info-item">
                                         <label>العمر</label>
-                                        <span>${member.hhmemberage || ''} سنة</span>
+                                        <span>${member.hhmemberage || 'غير متوفر'} سنة</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>فارق السن عن رب الأسرة</label>
+                                        <span>${member.hhmemberageGap || 'غير متوفر'} سنة</span>
                                     </div>
                                     <div class="info-item">
                                         <label>الجنس</label>
-                                        <span>${member.hhmembergender === 'M' ? 'ذكر' : 'أنثى'}</span>
+                                        <span>${member.hhmembergender === 'M' ? 'ذكر' : member.hhmembergender === 'F' ? 'أنثى' : 'غير متوفر'}</span>
                                     </div>
                                     <div class="info-item">
-                                        <label>الصلة</label>
+                                        <label>الصلة برب الأسرة (رقم)</label>
+                                        <span>${member.hhmemberrelation || 'غير متوفر'}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>الصلة (نص)</label>
                                         <span>${getRelation(member.hhmemberrelation)}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>إعاقة</label>
+                                        <span>${member.hhmemberpwd?.true ? 'نعم' : 'لا'}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>حمل</label>
+                                        <span>${member.hhmemberpregnant?.true ? 'نعم' : 'لا'}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>رضاعة</label>
+                                        <span>${member.hhmemberlactating?.true ? 'نعم' : 'لا'}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>حالة التكرار</label>
+                                        <span>${member.verdictDuplicate === 'NO' ? 'غير مكرر' : member.verdictDuplicate || 'غير معروف'}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <label>ملاحظات</label>
+                                        <span>${member.allowDuplicates || 'لا يوجد'}</span>
                                     </div>
                                 </div>
                             </div>
@@ -576,25 +730,88 @@
                 html += `</div>`;
             }
             
+            // ========== 4. معلومات تقنية وميتاداتا كاملة ==========
+            html += `
+                <div class="result-card">
+                    <h2><i class="fas fa-info-circle"></i> معلومات تقنية - تفاصيل كاملة</h2>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>حالة الملف</label>
+                            <span>${data.state || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>متصفح المستخدم</label>
+                            <span>${metadata.browserName || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>نظام التشغيل</label>
+                            <span>${metadata.userAgent || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>المنطقة الزمنية</label>
+                            <span>${metadata.timezone || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>المصدر (Origin)</label>
+                            <span>${metadata.origin || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>المرجع (Referrer)</label>
+                            <span>${metadata.referrer || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>مسار الصفحة</label>
+                            <span>${metadata.pathName || 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>اتصال مباشر</label>
+                            <span>${metadata.onLine ? 'نعم' : 'لا'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>حقول فريدة</label>
+                            <span>${data.uniqueFields ? data.uniqueFields.join(' - ') : 'غير متوفر'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>تم التحقق</label>
+                            <span>${resultData.cpVerified ? 'نعم' : 'لا'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>تعليقات</label>
+                            <span>${resultData.comments || 'لا يوجد'}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>بريد التحديث</label>
+                            <span>${resultData.update_by_email || 'غير متوفر'}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
             document.getElementById('results').innerHTML = html;
         }
 
-        // دالة ترجمة الصلة (محفوظة)
+        // دالة ترجمة الصلة (موسعة)
         function getRelation(code) {
             const relations = {
                 '1': 'رب الأسرة',
                 '2': 'زوجة',
                 '3': 'ابن',
-                '4': 'ابنة'
+                '4': 'ابنة',
+                '5': 'أب',
+                '6': 'أم',
+                '7': 'أخ',
+                '8': 'أخت',
+                '9': 'جد',
+                '10': 'جدة',
+                '11': 'حفيد',
+                '12': 'حفيدة',
+                '13': 'عم',
+                '14': 'عمة',
+                '15': 'خال',
+                '16': 'خالة'
             };
             return relations[code] || code || 'غير محدد';
         }
-
-        // لا يوجد بحث تلقائي عند تحميل الصفحة (تمت إزالة الرقم المحدد)
-        // المستخدم سيُدخل الرقم بنفسه
-        
-        // تنبيه لطيف للمستخدم
-        console.log('مرحباً بك في منصة نادر WFP الذهبية');
     </script>
 </body>
 </html>
