@@ -2,228 +2,146 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-    <title>نادر WFP - المنصة الذهبية للبحث الدقيق</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>نادر WFP | بحث دقيق</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- خطوط عربية متنوعة مع تحسين القراءة -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <!-- خط عربي نظيف -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* إعادة تعيين وتوحيد الأساسيات */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-gradient: linear-gradient(165deg, #0a0c1a 0%, #1a1c35 100%);
-            --gold: #d4af37;
-            --gold-light: #f1e5b3;
-            --gold-dark: #aa8c2c;
-            --bg-dark: #0d0e1d;
-            --card-bg: rgba(18, 20, 38, 0.95);
-            --card-border: rgba(212, 175, 55, 0.25);
-            --text-primary: #ffffff;
-            --text-secondary: #e5e5e5;
-            --accent: #d4af37;
-            --accent-hover: #e4c45a;
-        }
-
         body {
-            font-family: 'Tajawal', 'Almarai', sans-serif;
-            background: var(--primary-gradient);
+            font-family: 'Tajawal', sans-serif;
+            background: #f5f7fb;
             min-height: 100vh;
             padding: 15px;
-            color: var(--text-primary);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            font-size: 16px;
+            color: #2d3748;
+            line-height: 1.5;
+            font-size: 14px;
         }
 
-        /* زيادة حجم الخط قليلاً */
-        @media (max-width: 768px) {
-            body {
-                font-size: 15px;
-            }
-        }
-
-        /* الحاوية الرئيسية */
         .container {
-            max-width: 1500px;
+            max-width: 1300px;
             margin: 0 auto;
-            width: 100%;
         }
 
-        /* رأس الموقع فخم جداً */
+        /* رأس بسيط */
         .header {
-            background: rgba(10, 12, 30, 0.85);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 2px solid var(--card-border);
-            border-radius: 70px;
-            padding: 35px 25px;
-            margin-bottom: 35px;
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
             text-align: center;
-            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(212, 175, 55, 0.15) inset;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
-            animation: glow 4s infinite;
-        }
-
-        @keyframes glow {
-            0% { opacity: 0.2; transform: translateX(-100%); }
-            50% { opacity: 1; transform: translateX(0); }
-            100% { opacity: 0.2; transform: translateX(100%); }
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border: 1px solid #edf2f7;
         }
 
         .header h1 {
-            font-size: clamp(2.5rem, 10vw, 5rem);
-            font-weight: 900;
-            margin-bottom: 15px;
-            background: linear-gradient(145deg, #ffffff 0%, #f7e9c3 40%, #d4af37 80%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 5px 25px rgba(212, 175, 55, 0.5);
-            letter-spacing: 1.5px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+
+        .header h1 i {
+            color: #f59e0b;
+            margin: 0 5px;
         }
 
         .header p {
-            font-size: clamp(1.1rem, 5vw, 1.6rem);
-            color: var(--text-secondary);
+            color: #64748b;
+            font-size: 14px;
             font-weight: 400;
-            max-width: 900px;
-            margin: 0 auto;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 12px 40px;
-            border-radius: 100px;
-            display: inline-block;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
         }
 
-        /* صندوق البحث متجاوب */
+        /* صندوق البحث */
         .search-box {
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 2px solid var(--card-border);
-            border-radius: 90px;
-            padding: 20px 20px 20px 30px;
-            margin-bottom: 45px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border: 1px solid #edf2f7;
         }
 
         .input-group {
             display: flex;
+            gap: 12px;
             flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
         }
 
         .input-group input {
-            flex: 1 1 280px;
-            min-width: 220px;
-            padding: 22px 30px;
-            font-size: 1.3rem;
-            font-weight: 500;
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 70px;
-            color: white;
+            flex: 1;
+            min-width: 250px;
+            padding: 14px 18px;
+            font-size: 15px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            background: #f8fafc;
+            color: #1e293b;
             outline: none;
-            transition: all 0.4s ease;
-            font-family: 'Tajawal', 'Almarai', sans-serif;
-            letter-spacing: 0.7px;
-        }
-
-        .input-group input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 300;
-            font-size: 1.2rem;
+            transition: all 0.2s;
+            font-family: 'Tajawal', sans-serif;
         }
 
         .input-group input:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 5px rgba(212, 175, 55, 0.25);
-            background: rgba(0, 0, 0, 0.7);
+            border-color: #f59e0b;
+            background: white;
+        }
+
+        .input-group input::placeholder {
+            color: #94a3b8;
+            font-size: 14px;
         }
 
         .input-group button {
-            padding: 22px 50px;
-            background: linear-gradient(145deg, #d4af37, #b8962c);
+            padding: 14px 28px;
+            background: #f59e0b;
+            color: white;
             border: none;
-            border-radius: 70px;
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #0a0c1a;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 15px;
-            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            min-width: 180px;
-            font-family: 'Tajawal', 'Almarai', sans-serif;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: 'Tajawal', sans-serif;
+            white-space: nowrap;
         }
 
         .input-group button:hover {
-            background: linear-gradient(145deg, #e4c45a, #d4af37);
-            transform: translateY(-5px);
-            box-shadow: 0 25px 40px rgba(212, 175, 55, 0.6);
+            background: #d97706;
         }
 
-        .input-group button:active {
-            transform: translateY(0);
-        }
-
-        @media (max-width: 600px) {
-            .search-box {
-                border-radius: 50px;
-                padding: 15px;
-            }
+        @media (max-width: 500px) {
             .input-group button {
                 width: 100%;
-                padding: 18px 25px;
-                font-size: 1.3rem;
-            }
-            .input-group input {
-                width: 100%;
-                text-align: center;
-                padding: 18px 20px;
+                justify-content: center;
             }
         }
 
-        /* لوادر أنيقة */
+        /* لوader بسيط */
         .loading {
             text-align: center;
-            padding: 70px 20px;
+            padding: 40px;
             display: none;
         }
 
         .spinner {
-            width: 90px;
-            height: 90px;
-            border: 6px solid rgba(212, 175, 55, 0.2);
-            border-top: 6px solid var(--gold);
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid #f59e0b;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 30px;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 15px;
         }
 
         @keyframes spin {
@@ -232,205 +150,178 @@
         }
 
         .loading p {
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            font-weight: 400;
+            color: #64748b;
+            font-size: 15px;
         }
 
-        /* بطاقات النتائج فخمة مع خط أكبر */
-        .result-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 2px solid var(--card-border);
-            border-radius: 60px;
-            padding: 40px;
-            margin-bottom: 35px;
-            box-shadow: 0 35px 60px rgba(0, 0, 0, 0.6);
-            transition: transform 0.3s ease, border-color 0.3s;
+        /* بطاقة رئيسية */
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.02);
+            border: 1px solid #edf2f7;
         }
 
-        .result-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(212, 175, 55, 0.7);
-        }
-
-        .result-card h2 {
-            font-size: clamp(2rem, 6vw, 2.6rem);
-            font-weight: 800;
-            margin-bottom: 30px;
-            padding-bottom: 18px;
-            border-bottom: 4px solid rgba(212, 175, 55, 0.5);
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f1f5f9;
             display: flex;
             align-items: center;
-            gap: 18px;
-            color: var(--gold-light);
-            text-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+            gap: 8px;
         }
 
-        .result-card h2 i {
-            font-size: 2.3rem;
-            color: var(--gold);
+        .card-title i {
+            color: #f59e0b;
+            font-size: 18px;
         }
 
-        /* شبكة المعلومات مع خط أكبر */
+        /* شبكة المعلومات */
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
         }
 
         .info-item {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(5px);
-            padding: 25px;
-            border-radius: 40px;
-            border-right: 8px solid var(--gold);
-            transition: all 0.3s;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: #f8fafc;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid #eef2f6;
+            transition: all 0.15s;
         }
 
         .info-item:hover {
-            background: rgba(0, 0, 0, 0.6);
-            border-color: var(--gold);
+            background: white;
+            border-color: #f59e0b20;
         }
 
         .info-item label {
-            color: var(--gold-light);
-            font-weight: 600;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 500;
             display: block;
-            margin-bottom: 10px;
-            font-size: 1.15rem;
-            letter-spacing: 0.8px;
+            margin-bottom: 5px;
+            letter-spacing: 0.2px;
         }
 
         .info-item span {
-            color: white;
-            font-size: 1.3rem;
-            font-weight: 400;
+            color: #0f172a;
+            font-size: 15px;
+            font-weight: 500;
             word-break: break-word;
-            line-height: 1.7;
         }
 
-        /* أفراد العائلة بطاقات مترفة */
+        /* بطاقة فرد العائلة */
         .family-member {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px);
-            border-radius: 50px;
-            padding: 30px;
-            margin-bottom: 25px;
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            transition: all 0.3s;
+            background: #f8fafc;
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 15px;
+            border: 1px solid #e9eef3;
         }
 
-        .family-member:hover {
-            background: rgba(0, 0, 0, 0.7);
-            border-color: var(--gold);
+        .family-member:last-child {
+            margin-bottom: 0;
         }
 
         .family-member h3 {
-            color: var(--gold);
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 25px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 8px;
         }
 
         .family-member h3 i {
-            color: var(--gold-light);
-            font-size: 1.8rem;
+            color: #f59e0b;
+            font-size: 16px;
         }
 
-        /* صندوق الخطأ */
+        /* خطأ */
         .error-box {
-            background: rgba(180, 40, 40, 0.25);
-            backdrop-filter: blur(12px);
-            border: 2px solid #ff8a8a;
-            border-radius: 60px;
-            padding: 35px;
+            background: #fef2f2;
+            border: 1px solid #fee2e2;
+            border-radius: 16px;
+            padding: 20px;
             text-align: center;
-            color: #ffd6d6;
-            font-size: 1.5rem;
-            font-weight: 500;
-            margin: 25px 0;
+            color: #b91c1c;
+            font-size: 15px;
+            margin: 15px 0;
         }
 
-        /* تذييل أنيق */
+        /* تذييل */
         .footer {
             text-align: center;
-            color: rgba(255, 255, 255, 0.4);
-            margin-top: 70px;
-            padding: 25px;
-            font-size: 1.2rem;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            color: #94a3b8;
+            margin-top: 30px;
+            padding: 15px;
+            font-size: 13px;
+            border-top: 1px solid #edf2f7;
         }
 
         /* تحسينات للشاشات الصغيرة */
-        @media (max-width: 480px) {
-            .result-card {
-                padding: 25px;
-                border-radius: 40px;
+        @media (max-width: 600px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .main-card {
+                padding: 16px;
             }
             .info-item {
-                padding: 20px;
-            }
-            .family-member {
-                padding: 25px;
-            }
-            .family-member h3 {
-                font-size: 1.7rem;
+                padding: 12px 14px;
             }
             .info-item span {
-                font-size: 1.2rem;
-            }
-        }
-
-        /* للأجهزة المتوسطة */
-        @media (min-width: 768px) and (max-width: 1024px) {
-            .info-grid {
-                grid-template-columns: repeat(2, 1fr);
+                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- رأس فخم -->
+        <!-- رأس بسيط -->
         <div class="header">
-            <h1><i class="fas fa-crown" style="color: #d4af37;"></i> نادر WFP <i class="fas fa-search" style="color: #d4af37;"></i></h1>
-            <p>المنصة الذهبية للبحث الدقيق في بيانات برنامج الأغذية العالمي</p>
+            <h1>
+                <i class="fas fa-search"></i> 
+                نادر WFP 
+                <i class="fas fa-database"></i>
+            </h1>
+            <p>البحث في بيانات برنامج الأغذية العالمي</p>
         </div>
 
-        <!-- صندوق البحث -->
+        <!-- بحث -->
         <div class="search-box">
             <div class="input-group">
-                <input type="text" id="nid" placeholder="أدخل رقم الهوية (9 أرقام على الأقل)" maxlength="20">
+                <input type="text" id="nid" placeholder="أدخل رقم الهوية (9 أرقام)" maxlength="20">
                 <button onclick="searchWFP()">
                     <i class="fas fa-search"></i> بحث
                 </button>
             </div>
         </div>
 
-        <!-- منطقة التحميل -->
+        <!-- تحميل -->
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p>جاري تحميل البيانات من الخوادم الذهبية ...</p>
+            <p>جاري البحث ...</p>
         </div>
 
-        <!-- نتائج البحث -->
+        <!-- النتائج -->
         <div id="results"></div>
 
         <!-- تذييل -->
         <div class="footer">
-            <p>جميع الحقوق محفوظة © 2025 - نادر WFP | تصميم أنيق ودقيق لجميع الأجهزة</p>
+            <p>جميع الحقوق محفوظة © 2025 - نادر WFP</p>
         </div>
     </div>
 
-    <!-- السكربت الأساسي مع جميع التفاصيل الدقيقة -->
     <script>
-        // دالة البحث الرئيسية
         async function searchWFP() {
             const nid = document.getElementById('nid').value.trim();
             const resultsDiv = document.getElementById('results');
@@ -441,348 +332,142 @@
                 return;
             }
             
-            // إظهار التحميل
             loadingDiv.style.display = 'block';
             resultsDiv.innerHTML = '';
             
             try {
-                // استخدام proxy مختلف
                 const proxyUrl = 'https://corsproxy.io/?';
                 const targetUrl = `https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/${nid}`;
                 
                 const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
                 
                 if (!response.ok) {
-                    throw new Error('فشل الاتصال بالخادم');
+                    throw new Error('فشل الاتصال');
                 }
                 
                 const data = await response.json();
-                
-                // عرض النتائج مع كامل التفاصيل
                 displayResults(data);
                 
             } catch (error) {
-                // إذا فشل، جرب proxy آخر
                 try {
                     const backupProxy = 'https://api.codetabs.com/v1/proxy/?quest=';
                     const response = await fetch(backupProxy + encodeURIComponent(`https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/${nid}`));
                     
                     if (!response.ok) {
-                        throw new Error('فشل الاتصال بالخادم');
+                        throw new Error('فشل الاتصال');
                     }
                     
                     const data = await response.json();
                     displayResults(data);
                     
                 } catch (backupError) {
-                    resultsDiv.innerHTML = `<div class="error-box">❌ خطأ في الاتصال: ${backupError.message}</div>`;
+                    resultsDiv.innerHTML = `<div class="error-box">❌ خطأ: ${backupError.message}</div>`;
                 }
             } finally {
                 loadingDiv.style.display = 'none';
             }
         }
 
-        // دالة عرض النتائج (شاملة كل التفاصيل)
         function displayResults(data) {
             const resultData = data.data || {};
             const metadata = data.metadata || {};
             
             let html = '';
             
-            // ========== 1. معلومات رب الأسرة (كاملة جداً) ==========
+            // ===== رب الأسرة =====
             html += `
-                <div class="result-card">
-                    <h2><i class="fas fa-crown"></i> رب الأسرة - تفاصيل كاملة</h2>
+                <div class="main-card">
+                    <div class="card-title">
+                        <i class="fas fa-user"></i> رب الأسرة
+                    </div>
                     <div class="info-grid">
-                        <div class="info-item">
-                            <label>الاسم الأول</label>
-                            <span>${resultData.hohfirstName || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>اسم الأب</label>
-                            <span>${resultData.hohfathersName || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>اسم الجد</label>
-                            <span>${resultData.hohgrandfathersName || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>اسم العائلة</label>
-                            <span>${resultData.hohlastName || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>الاسم الكامل</label>
-                            <span>${resultData.hohfirstName || ''} ${resultData.hohfathersName || ''} ${resultData.hohgrandfathersName || ''} ${resultData.hohlastName || ''}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>رقم الهوية</label>
-                            <span>${resultData.documentNumber || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>نوع الوثيقة</label>
-                            <span>${resultData.documentType === 'nid' ? 'هوية وطنية' : resultData.documentType || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>تاريخ الميلاد</label>
-                            <span>${resultData.hohdob || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>العمر</label>
-                            <span>${resultData.hohage || 'غير متوفر'} سنة</span>
-                        </div>
-                        <div class="info-item">
-                            <label>الجنس</label>
-                            <span>${resultData.hohgender === 'M' ? 'ذكر' : resultData.hohgender === 'F' ? 'أنثى' : 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>الحالة الاجتماعية</label>
-                            <span>${resultData.hohmaritalStatus === 'married' ? 'متزوج' : resultData.hohmaritalStatus || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>رقم الجوال الأساسي</label>
-                            <span>${resultData.primaryPhoneNumber || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>رقم الجوال الثانوي</label>
-                            <span>${resultData.secondaryPhoneNumber || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>حالة الإعاقة</label>
-                            <span>${resultData.hhpwd?.true ? 'نعم' : 'لا'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>حالة الإقامة</label>
-                            <span>${resultData.hohresidentialStatus === 1 ? 'مقيم' : resultData.hohresidentialStatus === 2 ? 'زائر' : 'غير محدد'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>حمل (رب الأسرة)</label>
-                            <span>${resultData.hohpregnant?.true ? 'نعم' : 'لا'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>رضاعة (رب الأسرة)</label>
-                            <span>${resultData.hohlactating?.true ? 'نعم' : 'لا'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>تاريخ آخر تحديث</label>
-                            <span>${resultData.beneficiaryLastTimeUpdated || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>تاريخ التعديل</label>
-                            <span>${resultData.modified_date || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>الغرض من العملية</label>
-                            <span>${resultData.purpose === 'update' ? 'تحديث' : resultData.purpose || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>حالة اللجوء الأصلية</label>
-                            <span>${resultData.refugeeStatus || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>حالة اللجوء الحالية</label>
-                            <span>${resultData.refugeeStatus1 || 'غير متوفر'}</span>
-                        </div>
+                        <div class="info-item"><label>الاسم الأول</label><span>${resultData.hohfirstName || '-'}</span></div>
+                        <div class="info-item"><label>اسم الأب</label><span>${resultData.hohfathersName || '-'}</span></div>
+                        <div class="info-item"><label>اسم الجد</label><span>${resultData.hohgrandfathersName || '-'}</span></div>
+                        <div class="info-item"><label>العائلة</label><span>${resultData.hohlastName || '-'}</span></div>
+                        <div class="info-item"><label>رقم الهوية</label><span>${resultData.documentNumber || '-'}</span></div>
+                        <div class="info-item"><label>تاريخ الميلاد</label><span>${resultData.hohdob || '-'}</span></div>
+                        <div class="info-item"><label>العمر</label><span>${resultData.hohage || '-'} سنة</span></div>
+                        <div class="info-item"><label>الجنس</label><span>${resultData.hohgender === 'M' ? 'ذكر' : resultData.hohgender === 'F' ? 'أنثى' : '-'}</span></div>
+                        <div class="info-item"><label>الحالة الاجتماعية</label><span>${resultData.hohmaritalStatus === 'married' ? 'متزوج' : resultData.hohmaritalStatus || '-'}</span></div>
+                        <div class="info-item"><label>رقم الجوال</label><span>${resultData.primaryPhoneNumber || '-'}</span></div>
+                        <div class="info-item"><label>جوال ثانوي</label><span>${resultData.secondaryPhoneNumber || '-'}</span></div>
+                        <div class="info-item"><label>إعاقة</label><span>${resultData.hhpwd?.true ? 'نعم' : 'لا'}</span></div>
+                        <div class="info-item"><label>حالة الإقامة</label><span>${resultData.hohresidentialStatus === 1 ? 'مقيم' : '-'}</span></div>
+                        <div class="info-item"><label>حمل</label><span>${resultData.hohpregnant?.true ? 'نعم' : 'لا'}</span></div>
+                        <div class="info-item"><label>رضاعة</label><span>${resultData.hohlactating?.true ? 'نعم' : 'لا'}</span></div>
                     </div>
                 </div>
             `;
             
-            // ========== 2. معلومات الموقع (كاملة) ==========
+            // ===== الموقع =====
             html += `
-                <div class="result-card">
-                    <h2><i class="fas fa-map-marker-alt"></i> معلومات الموقع - تفاصيل كاملة</h2>
+                <div class="main-card">
+                    <div class="card-title">
+                        <i class="fas fa-map-marker-alt"></i> الموقع
+                    </div>
                     <div class="info-grid">
-                        <div class="info-item">
-                            <label>المحافظة (كود)</label>
-                            <span>${resultData.admin2 || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>المحافظة (الاسم)</label>
-                            <span>${metadata.selectData?.admin2?.label || resultData.admin2 || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>المدينة (كود)</label>
-                            <span>${resultData.admin3 || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>المدينة (الاسم)</label>
-                            <span>${metadata.selectData?.admin3?.label || resultData.admin3 || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>المنطقة (كود)</label>
-                            <span>${resultData.admin4 || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>المنطقة (الاسم)</label>
-                            <span>${metadata.selectData?.admin4?.label || resultData.admin4 || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>نوع السكن</label>
-                            <span>${resultData.adminAccomodation === 'tent' ? 'خيمة' : resultData.adminAccomodation === 'house' ? 'منزل' : resultData.adminAccomodation || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>حالة النزوح (رقم)</label>
-                            <span>${resultData.hhdisplacement || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>حالة النزوح (نص)</label>
-                            <span>${resultData.hhdisplacement === 7 ? 'نازح' : 'غير نازح'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>تاريخ النزوح</label>
-                            <span>${resultData.dateofDisplacement ? new Date(resultData.dateofDisplacement).toLocaleString('ar-EG') : 'غير متوفر'}</span>
-                        </div>
+                        <div class="info-item"><label>المحافظة</label><span>${metadata.selectData?.admin2?.label || resultData.admin2 || '-'}</span></div>
+                        <div class="info-item"><label>المدينة</label><span>${metadata.selectData?.admin3?.label || resultData.admin3 || '-'}</span></div>
+                        <div class="info-item"><label>المنطقة</label><span>${metadata.selectData?.admin4?.label || resultData.admin4 || '-'}</span></div>
+                        <div class="info-item"><label>نوع السكن</label><span>${resultData.adminAccomodation === 'tent' ? 'خيمة' : resultData.adminAccomodation || '-'}</span></div>
+                        <div class="info-item"><label>حالة النزوح</label><span>${resultData.hhdisplacement === 7 ? 'نازح' : 'غير نازح'}</span></div>
+                        <div class="info-item"><label>تاريخ النزوح</label><span>${resultData.dateofDisplacement ? new Date(resultData.dateofDisplacement).toLocaleDateString('ar-EG') : '-'}</span></div>
+                        <div class="info-item"><label>حالة اللجوء</label><span>${resultData.refugeeStatus || '-'}</span></div>
                     </div>
                 </div>
             `;
             
-            // ========== 3. أفراد العائلة (كامل التفاصيل لكل فرد) ==========
+            // ===== أفراد العائلة =====
             const familyMembers = resultData.family_members_information || [];
-            if (familyMembers.length > 0) {
+            const activeMembers = familyMembers.filter(m => !m.deleted);
+            
+            if (activeMembers.length > 0) {
                 html += `
-                    <div class="result-card">
-                        <h2><i class="fas fa-users"></i> أفراد العائلة - تفاصيل كاملة (${familyMembers.length})</h2>
+                    <div class="main-card">
+                        <div class="card-title">
+                            <i class="fas fa-users"></i> أفراد العائلة (${activeMembers.length})
+                        </div>
                 `;
                 
-                familyMembers.forEach((member, index) => {
-                    if (!member.deleted) {
-                        html += `
-                            <div class="family-member">
-                                <h3><i class="fas fa-user-circle"></i> عضو رقم ${index + 1}</h3>
-                                <div class="info-grid">
-                                    <div class="info-item">
-                                        <label>الاسم الأول</label>
-                                        <span>${member.hhmemberfirstName || 'غير متوفر'}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>اسم الأب</label>
-                                        <span>${member.hhmemberfathersName || 'غير متوفر'}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>اسم الجد</label>
-                                        <span>${member.hhmembergrandfathersName || 'غير متوفر'}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>اسم العائلة</label>
-                                        <span>${member.hhmemberlastName || 'غير متوفر'}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>الاسم الكامل</label>
-                                        <span>${member.hhmemberfirstName || ''} ${member.hhmemberfathersName || ''} ${member.hhmemberlastName || ''}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>رقم الهوية</label>
-                                        <span>${member.hhmemberdocumentNumber || 'غير متوفر'}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>نوع الوثيقة</label>
-                                        <span>${member.hhmemberdocumentType === 'nid' ? 'هوية وطنية' : member.hhmemberdocumentType || 'غير متوفر'}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>تاريخ الميلاد</label>
-                                        <span>${member.hhmemberdob || 'غير متوفر'}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>العمر</label>
-                                        <span>${member.hhmemberage || 'غير متوفر'} سنة</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>فارق السن عن رب الأسرة</label>
-                                        <span>${member.hhmemberageGap || 'غير متوفر'} سنة</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>الجنس</label>
-                                        <span>${member.hhmembergender === 'M' ? 'ذكر' : member.hhmembergender === 'F' ? 'أنثى' : 'غير متوفر'}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>الصلة برب الأسرة (رقم)</label>
-                                        <span>${member.hhmemberrelation || 'غير متوفر'}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>الصلة (نص)</label>
-                                        <span>${getRelation(member.hhmemberrelation)}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>إعاقة</label>
-                                        <span>${member.hhmemberpwd?.true ? 'نعم' : 'لا'}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>حمل</label>
-                                        <span>${member.hhmemberpregnant?.true ? 'نعم' : 'لا'}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>رضاعة</label>
-                                        <span>${member.hhmemberlactating?.true ? 'نعم' : 'لا'}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>حالة التكرار</label>
-                                        <span>${member.verdictDuplicate === 'NO' ? 'غير مكرر' : member.verdictDuplicate || 'غير معروف'}</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <label>ملاحظات</label>
-                                        <span>${member.allowDuplicates || 'لا يوجد'}</span>
-                                    </div>
-                                </div>
+                activeMembers.forEach((member, index) => {
+                    html += `
+                        <div class="family-member">
+                            <h3><i class="fas fa-user-circle"></i> عضو ${index + 1}</h3>
+                            <div class="info-grid">
+                                <div class="info-item"><label>الاسم</label><span>${member.hhmemberfirstName || ''} ${member.hhmemberfathersName || ''} ${member.hhmemberlastName || ''}</span></div>
+                                <div class="info-item"><label>رقم الهوية</label><span>${member.hhmemberdocumentNumber || '-'}</span></div>
+                                <div class="info-item"><label>تاريخ الميلاد</label><span>${member.hhmemberdob || '-'}</span></div>
+                                <div class="info-item"><label>العمر</label><span>${member.hhmemberage || '-'} سنة</span></div>
+                                <div class="info-item"><label>فارق العمر</label><span>${member.hhmemberageGap || '-'} سنة</span></div>
+                                <div class="info-item"><label>الجنس</label><span>${member.hhmembergender === 'M' ? 'ذكر' : 'أنثى'}</span></div>
+                                <div class="info-item"><label>الصلة</label><span>${getRelation(member.hhmemberrelation)}</span></div>
+                                <div class="info-item"><label>إعاقة</label><span>${member.hhmemberpwd?.true ? 'نعم' : 'لا'}</span></div>
+                                <div class="info-item"><label>حمل</label><span>${member.hhmemberpregnant?.true ? 'نعم' : 'لا'}</span></div>
+                                <div class="info-item"><label>رضاعة</label><span>${member.hhmemberlactating?.true ? 'نعم' : 'لا'}</span></div>
+                                <div class="info-item"><label>تكرار</label><span>${member.verdictDuplicate === 'NO' ? 'لا' : 'نعم'}</span></div>
                             </div>
-                        `;
-                    }
+                        </div>
+                    `;
                 });
                 
                 html += `</div>`;
             }
             
-            // ========== 4. معلومات تقنية وميتاداتا كاملة ==========
+            // ===== معلومات تقنية =====
             html += `
-                <div class="result-card">
-                    <h2><i class="fas fa-info-circle"></i> معلومات تقنية - تفاصيل كاملة</h2>
+                <div class="main-card">
+                    <div class="card-title">
+                        <i class="fas fa-info-circle"></i> معلومات إضافية
+                    </div>
                     <div class="info-grid">
-                        <div class="info-item">
-                            <label>حالة الملف</label>
-                            <span>${data.state || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>متصفح المستخدم</label>
-                            <span>${metadata.browserName || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>نظام التشغيل</label>
-                            <span>${metadata.userAgent || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>المنطقة الزمنية</label>
-                            <span>${metadata.timezone || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>المصدر (Origin)</label>
-                            <span>${metadata.origin || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>المرجع (Referrer)</label>
-                            <span>${metadata.referrer || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>مسار الصفحة</label>
-                            <span>${metadata.pathName || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>اتصال مباشر</label>
-                            <span>${metadata.onLine ? 'نعم' : 'لا'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>حقول فريدة</label>
-                            <span>${data.uniqueFields ? data.uniqueFields.join(' - ') : 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>تم التحقق</label>
-                            <span>${resultData.cpVerified ? 'نعم' : 'لا'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>تعليقات</label>
-                            <span>${resultData.comments || 'لا يوجد'}</span>
-                        </div>
-                        <div class="info-item">
-                            <label>بريد التحديث</label>
-                            <span>${resultData.update_by_email || 'غير متوفر'}</span>
-                        </div>
+                        <div class="info-item"><label>حالة الملف</label><span>${data.state || '-'}</span></div>
+                        <div class="info-item"><label>آخر تحديث</label><span>${resultData.beneficiaryLastTimeUpdated || '-'}</span></div>
+                        <div class="info-item"><label>تاريخ التعديل</label><span>${resultData.modified_date || '-'}</span></div>
+                        <div class="info-item"><label>الغرض</label><span>${resultData.purpose === 'update' ? 'تحديث' : resultData.purpose || '-'}</span></div>
+                        <div class="info-item"><label>نظام التشغيل</label><span>${metadata.userAgent ? metadata.userAgent.substring(0, 40) + '...' : '-'}</span></div>
+                        <div class="info-item"><label>المنطقة الزمنية</label><span>${metadata.timezone || '-'}</span></div>
+                        <div class="info-item"><label>المصدر</label><span>${metadata.origin || '-'}</span></div>
                     </div>
                 </div>
             `;
@@ -790,27 +475,14 @@
             document.getElementById('results').innerHTML = html;
         }
 
-        // دالة ترجمة الصلة (موسعة)
         function getRelation(code) {
             const relations = {
-                '1': 'رب الأسرة',
-                '2': 'زوجة',
-                '3': 'ابن',
-                '4': 'ابنة',
-                '5': 'أب',
-                '6': 'أم',
-                '7': 'أخ',
-                '8': 'أخت',
-                '9': 'جد',
-                '10': 'جدة',
-                '11': 'حفيد',
-                '12': 'حفيدة',
-                '13': 'عم',
-                '14': 'عمة',
-                '15': 'خال',
-                '16': 'خالة'
+                '1': 'رب الأسرة', '2': 'زوجة', '3': 'ابن', '4': 'ابنة',
+                '5': 'أب', '6': 'أم', '7': 'أخ', '8': 'أخت',
+                '9': 'جد', '10': 'جدة', '11': 'حفيد', '12': 'حفيدة',
+                '13': 'عم', '14': 'عمة', '15': 'خال', '16': 'خالة'
             };
-            return relations[code] || code || 'غير محدد';
+            return relations[code] || code || '-';
         }
     </script>
 </body>
