@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نادر - البحث في WFP</title>
+    <title>نادر - البحث المباشر</title>
     <style>
         * {
             margin: 0;
@@ -12,402 +12,236 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #1a1a2e;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
         }
         .container {
-            background: white;
-            border-radius: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #16213e;
+            border-radius: 30px;
             padding: 40px;
-            max-width: 800px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 1px solid #0f3460;
         }
         h1 {
             text-align: center;
-            color: #764ba2;
+            color: #e94560;
+            font-size: 3.5em;
             margin-bottom: 30px;
-            font-size: 3em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
         .search-box {
             display: flex;
             gap: 10px;
             margin-bottom: 30px;
+            background: #0f3460;
+            padding: 30px;
+            border-radius: 20px;
         }
         input {
             flex: 1;
-            padding: 15px 20px;
-            font-size: 1.2em;
-            border: 2px solid #e0e0e0;
-            border-radius: 50px;
+            padding: 20px 25px;
+            font-size: 1.3em;
+            border: 3px solid #533483;
+            border-radius: 60px;
             outline: none;
-            transition: all 0.3s;
+            background: #16213e;
+            color: white;
+            font-family: inherit;
         }
         input:focus {
-            border-color: #764ba2;
-            box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
+            border-color: #e94560;
         }
         button {
-            padding: 15px 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 50px;
+            background: #e94560;
             color: white;
             border: none;
-            border-radius: 50px;
-            font-size: 1.2em;
+            border-radius: 60px;
+            font-size: 1.3em;
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            font-weight: bold;
         }
         button:hover {
-            transform: translateY(-2px);
+            background: #0f3460;
+            transform: translateY(-3px);
         }
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .result {
+            background: #0f3460;
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            margin-top: 20px;
+        }
+        pre {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            color: #0f0;
+            direction: ltr;
+            text-align: left;
+        }
+        .error {
+            background: #e94560;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
         }
         .loading {
             text-align: center;
-            padding: 20px;
-            color: #666;
-            display: none;
-        }
-        .result {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            border-right: 4px solid #764ba2;
-        }
-        .result h2 {
-            color: #764ba2;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-        .info-item {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .info-item strong {
-            color: #667eea;
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9em;
-        }
-        .info-item span {
-            color: #333;
-            font-size: 1.1em;
-        }
-        .family-member {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px solid #e0e0e0;
-        }
-        .family-member h3 {
-            color: #764ba2;
-            margin-bottom: 10px;
-        }
-        .error {
-            background: #ff4444;
+            padding: 40px;
             color: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
         }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #666;
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #533483;
+            border-top: 5px solid #e94560;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
         }
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
-            border-radius: 10px;
-        }
-        .status-badge {
-            background: #28a745;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 50px;
-            display: inline-block;
-            font-size: 0.9em;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🔍 نادر WFP</h1>
-        
-        <div class="search-box">
-            <input type="text" id="nid" placeholder="أدخل رقم الهوية (مثال: 926699778)" value="926699778">
-            <button onclick="search()" id="searchBtn">بحث</button>
-        </div>
-        
-        <div class="loading" id="loading">
-            <div style="display: inline-block; width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #764ba2; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-            <p style="margin-top: 10px;">جاري البحث...</p>
-        </div>
-        
-        <div id="result"></div>
-        
-        <div class="footer">
-            <p>جميع الحقوق محفوظة © 2024</p>
-        </div>
-    </div>
-
-    <style>
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
     </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 نادر - البحث المباشر</h1>
+        
+        <div class="search-box">
+            <input type="text" id="nid" placeholder="أدخل رقم الهوية" value="926699778">
+            <button onclick="searchDirect()">بحث</button>
+        </div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>جاري جلب البيانات من الخادم...</p>
+        </div>
+        
+        <div id="result"></div>
+    </div>
 
     <script>
-        async function search() {
+        async function searchDirect() {
             const nid = document.getElementById('nid').value.trim();
             const resultDiv = document.getElementById('result');
             const loadingDiv = document.getElementById('loading');
-            const searchBtn = document.getElementById('searchBtn');
             
             if (!nid) {
                 alert('الرجاء إدخال رقم الهوية');
                 return;
             }
             
-            if (!/^\d+$/.test(nid) || nid.length < 9) {
-                resultDiv.innerHTML = '<div class="error">⚠️ رقم هوية غير صالح - يجب أن يكون 9 أرقام على الأقل</div>';
-                return;
-            }
-            
             // إظهار التحميل
             loadingDiv.style.display = 'block';
-            searchBtn.disabled = true;
             resultDiv.innerHTML = '';
             
             try {
-                // استخدام proxy مباشر
-                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                // المحاولة الأولى: استخدام CORS proxy
+                const proxy1 = 'https://api.allorigins.win/raw?url=';
+                const proxy2 = 'https://corsproxy.io/?';
+                const proxy3 = 'https://cors-anywhere.herokuapp.com/';
+                
                 const targetUrl = `https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/${nid}`;
                 
-                console.log('جاري البحث عن:', nid);
+                // تجربة عدة proxies
+                let data = null;
+                let errorMsg = '';
                 
-                const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
-                
-                if (!response.ok) {
-                    throw new Error('فشل الاتصال بالخادم');
+                // جرب proxy1
+                try {
+                    console.log('محاولة 1: allorigins');
+                    const res = await fetch(proxy1 + encodeURIComponent(targetUrl));
+                    if (res.ok) {
+                        const text = await res.text();
+                        try {
+                            data = JSON.parse(text);
+                        } catch {
+                            data = JSON.parse(JSON.parse(text).contents);
+                        }
+                    }
+                } catch (e) {
+                    errorMsg += 'Proxy1 failed: ' + e.message + '\n';
                 }
                 
-                const data = await response.json();
-                console.log('البيانات المستلمة:', data);
-                
-                if (!data || !data.data) {
-                    throw new Error('لا توجد بيانات لهذا الرقم');
+                // جرب proxy2
+                if (!data) {
+                    try {
+                        console.log('محاولة 2: corsproxy');
+                        const res = await fetch(proxy2 + targetUrl);
+                        if (res.ok) {
+                            data = await res.json();
+                        }
+                    } catch (e) {
+                        errorMsg += 'Proxy2 failed: ' + e.message + '\n';
+                    }
                 }
                 
-                displayResults(data, nid);
+                // جرب proxy3
+                if (!data) {
+                    try {
+                        console.log('محاولة 3: cors-anywhere');
+                        const res = await fetch(proxy3 + targetUrl, {
+                            headers: {
+                                'Origin': window.location.origin,
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        });
+                        if (res.ok) {
+                            data = await res.json();
+                        }
+                    } catch (e) {
+                        errorMsg += 'Proxy3 failed: ' + e.message + '\n';
+                    }
+                }
+                
+                if (data) {
+                    // عرض البيانات المستلمة
+                    let html = '<div class="result">';
+                    html += '<h2>✅ تم جلب البيانات بنجاح!</h2>';
+                    html += '<h3>البيانات الخام (Raw Data):</h3>';
+                    html += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                    
+                    // استخراج وعرض بعض المعلومات
+                    const mainData = data.data || {};
+                    html += '<h3>معلومات أساسية:</h3>';
+                    html += '<p>رقم الهوية: ' + nid + '</p>';
+                    html += '<p>الاسم: ' + (mainData.hohfirstName || 'غير متوفر') + '</p>';
+                    html += '<p>رقم الجوال: ' + (mainData.primaryPhoneNumber || 'غير متوفر') + '</p>';
+                    
+                    html += '</div>';
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.innerHTML = '<div class="error">❌ فشل الاتصال بجميع الـ proxies<br><pre>' + errorMsg + '</pre></div>';
+                }
                 
             } catch (error) {
-                console.error('خطأ:', error);
-                resultDiv.innerHTML = `<div class="error">❌ خطأ: ${error.message}</div>`;
+                resultDiv.innerHTML = '<div class="error">❌ خطأ: ' + error.message + '</div>';
             } finally {
                 loadingDiv.style.display = 'none';
-                searchBtn.disabled = false;
             }
         }
         
-        function displayResults(data, nid) {
-            const resultData = data.data || {};
-            const metadata = data.metadata || {};
-            
-            let html = '<div class="result">';
-            
-            // إحصائيات سريعة
-            html += `
-                <div class="stats">
-                    <span>📋 رقم البحث: ${nid}</span>
-                    <span>🕒 ${new Date().toLocaleString('ar-EG')}</span>
-                    <span class="status-badge">✅ نشط</span>
-                </div>
-            `;
-            
-            // معلومات رب الأسرة
-            if (resultData.hohfirstName) {
-                html += `
-                    <h2>👤 رب الأسرة</h2>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <strong>الاسم الكامل</strong>
-                            <span>${resultData.hohfirstName || ''} ${resultData.hohfathersName || ''} ${resultData.hohgrandfathersName || ''} ${resultData.hohlastName || ''}</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>تاريخ الميلاد</strong>
-                            <span>${resultData.hohdob || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>العمر</strong>
-                            <span>${resultData.hohage || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>الجنس</strong>
-                            <span>${resultData.hohgender === 'M' ? 'ذكر' : resultData.hohgender === 'F' ? 'أنثى' : 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>رقم الجوال</strong>
-                            <span>${resultData.primaryPhoneNumber || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>رقم ثانوي</strong>
-                            <span>${resultData.secondaryPhoneNumber || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>الحالة الاجتماعية</strong>
-                            <span>${resultData.hohmaritalStatus || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>إعاقة</strong>
-                            <span>${resultData.hhpwd ? 'نعم' : 'لا'}</span>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            // معلومات الموقع
-            if (resultData.admin2) {
-                html += `
-                    <h2 style="margin-top: 25px;">📍 معلومات الموقع</h2>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <strong>المحافظة</strong>
-                            <span>${resultData.admin2 || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>المدينة</strong>
-                            <span>${resultData.admin3 || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>المنطقة</strong>
-                            <span>${resultData.admin4 || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>نوع السكن</strong>
-                            <span>${resultData.adminAccomodation || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>حالة النزوح</strong>
-                            <span>${resultData.hhdisplacement || 'غير متوفر'}</span>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            // أفراد العائلة
-            if (resultData.family_members_information && resultData.family_members_information.length > 0) {
-                html += `
-                    <h2 style="margin-top: 25px;">👪 أفراد العائلة (${resultData.family_members_information.length})</h2>
-                `;
-                
-                resultData.family_members_information.forEach((member, index) => {
-                    html += `
-                        <div class="family-member">
-                            <h3>عضو ${index + 1}</h3>
-                            <div class="info-grid">
-                                <div class="info-item">
-                                    <strong>الاسم</strong>
-                                    <span>${member.hhmemberfirstName || ''} ${member.hhmemberfathersName || ''} ${member.hhmemberlastName || ''}</span>
-                                </div>
-                                <div class="info-item">
-                                    <strong>رقم الهوية</strong>
-                                    <span>${member.hhmemberdocumentNumber || 'غير متوفر'}</span>
-                                </div>
-                                <div class="info-item">
-                                    <strong>تاريخ الميلاد</strong>
-                                    <span>${member.hhmemberdob || 'غير متوفر'}</span>
-                                </div>
-                                <div class="info-item">
-                                    <strong>العمر</strong>
-                                    <span>${member.hhmemberage || 'غير متوفر'}</span>
-                                </div>
-                                <div class="info-item">
-                                    <strong>الصلة</strong>
-                                    <span>${member.hhmemberrelation || 'غير متوفر'}</span>
-                                </div>
-                                <div class="info-item">
-                                    <strong>الجنس</strong>
-                                    <span>${member.hhmembergender === 'M' ? 'ذكر' : member.hhmembergender === 'F' ? 'أنثى' : 'غير متوفر'}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+        // تجربة الاتصال المباشر
+        async function testConnection() {
+            try {
+                const response = await fetch('https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/926699778', {
+                    mode: 'no-cors'
                 });
+                console.log('Test response:', response);
+            } catch (e) {
+                console.log('Test error:', e);
             }
-            
-            // معلومات تقنية
-            if (metadata) {
-                html += `
-                    <h2 style="margin-top: 25px;">⚙️ معلومات تقنية</h2>
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <strong>آخر تحديث</strong>
-                            <span>${resultData.beneficiaryLastTimeUpdated || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>نظام التشغيل</strong>
-                            <span>${metadata.userAgent || 'غير متوفر'}</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>المنطقة الزمنية</strong>
-                            <span>${metadata.timezone || 'غير متوفر'}</span>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            html += '</div>';
-            
-            // إضافة زر تحميل
-            html += `
-                <div style="text-align: center; margin-top: 20px;">
-                    <button onclick="downloadJSON(${JSON.stringify(data).replace(/"/g, '&quot;')}, '${nid}')" style="background: #28a745;">
-                        📥 تحميل JSON
-                    </button>
-                </div>
-            `;
-            
-            document.getElementById('result').innerHTML = html;
         }
         
-        function downloadJSON(data, nid) {
-            const jsonStr = JSON.stringify(data, null, 2);
-            const blob = new Blob([jsonStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `wfp_${nid}_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
-        
-        // بحث تلقائي عند تحميل الصفحة
-        window.onload = function() {
-            setTimeout(search, 500);
-        };
+        // اختبار عند تحميل الصفحة
+        testConnection();
     </script>
 </body>
 </html>
