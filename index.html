@@ -270,7 +270,7 @@
             }
         }
 
-        /* لوader بسيط */
+        /* لوادر بسيط */
         .loading {
             text-align: center;
             padding: 40px;
@@ -492,7 +492,7 @@
         </div>
     </div>
 
-    <!-- إضافة Firebase هنا - السكربت الأصلي مع إضافة تشفير الرابط وتقسيمه وتحسين البروكسي -->
+    <!-- إضافة Firebase هنا - السكربت الأصلي مع إضافة تشفير الرابط وتحسين البروكسي للهاتف -->
     <script type="module">
         // =============================================
         // Firebase Configuration - كما هي بدون تعديل
@@ -514,6 +514,7 @@
         const db = getDatabase(app);
 
         let searching = false;
+        let lastSearchTime = 0; // للتأخير بين عمليات البحث
 
         // منع النسخ والفحص (حماية إضافية)
         document.addEventListener("contextmenu", e => e.preventDefault());
@@ -711,9 +712,47 @@
             return atob(e1 + e2 + e3 + e4 + e5);
         }
 
-        // ===== البحث (مع تحسين البروكسي والفحص) =====
+        // ===== دالة للبحث باستخدام عدة بروكسيات احتياطية (مثالية للهاتف) =====
+        async function fetchWithBackup(url) {
+            // قائمة بروكسيات قوية تعمل من الهاتف
+            const proxies = [
+                "https://corsproxy.io/?",
+                "https://api.allorigins.win/raw?url=",
+                "https://cors.isomorphic-git.org/",
+                "https://proxy.cors.sh/",
+                "https://cors-anywhere.herokuapp.com/"
+            ];
+            
+            let lastError = null;
+            
+            for (const proxy of proxies) {
+                try {
+                    const response = await fetch(proxy + encodeURIComponent(url));
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        return data;
+                    }
+                } catch (e) {
+                    lastError = e;
+                    console.log("Proxy failed:", proxy, e.message);
+                }
+            }
+            
+            throw new Error("جميع البروكسيات فشلت");
+        }
+
+        // ===== البحث (مع تحسين البروكسي للهاتف والتأخير بين العمليات) =====
         async function searchWFP() {
             if (searching) return;
+
+            // التأخير بين عمليات البحث (حماية من الحظر)
+            const now = Date.now();
+            if (now - lastSearchTime < 3000) {
+                alert("الرجاء الانتظار 3 ثواني بين كل بحث");
+                return;
+            }
+            lastSearchTime = now;
 
             const nid = document.getElementById("nid").value.trim();
 
@@ -742,19 +781,12 @@
             if (searchBtn) searchBtn.disabled = true;
 
             try {
-                // استخدام بروكسي أكثر استقراراً
-                const proxy = "https://api.allorigins.win/raw?url=";
                 // الرابط المشفر
                 const apiURL = getAPI();
                 const url = apiURL + nid;
 
-                const response = await fetch(proxy + encodeURIComponent(url));
-
-                if (!response.ok) {
-                    throw new Error("فشل الاتصال");
-                }
-
-                const data = await response.json();
+                // استخدام دالة البحث مع البروكسيات المتعددة
+                const data = await fetchWithBackup(url);
 
                 // فحص وجود البيانات
                 if (!data || !data.data) {
@@ -769,35 +801,8 @@
                 await logSearch(serial, nid);
 
             } catch (e) {
-                // محاولة استخدام بروكسي احتياطي
-                try {
-                    const backupProxy = "https://corsproxy.io/?";
-                    const apiURL = getAPI();
-                    const url = apiURL + nid;
-                    
-                    const response = await fetch(backupProxy + encodeURIComponent(url));
-                    
-                    if (!response.ok) {
-                        throw new Error("فشل الاتصال");
-                    }
-                    
-                    const data = await response.json();
-                    
-                    if (!data || !data.data) {
-                        resultsDiv.innerHTML =
-                            `<div class="error-box">لا توجد بيانات لهذا الرقم</div>`;
-                        return;
-                    }
-                    
-                    displayResults(data);
-                    
-                    await increaseSearchCount(serial);
-                    await logSearch(serial, nid);
-                    
-                } catch (backupError) {
-                    resultsDiv.innerHTML = `<div class="error-box">فشل الاتصال بالخادم</div>`;
-                    console.error(e);
-                }
+                resultsDiv.innerHTML = `<div class="error-box">فشل الاتصال بالخادم. تأكد من اتصالك بالإنترنت</div>`;
+                console.error(e);
             } finally {
                 loadingDiv.style.display = "none";
                 if (searchBtn) searchBtn.disabled = false;
