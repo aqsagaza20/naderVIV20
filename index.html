@@ -258,6 +258,11 @@
             background: #d97706;
         }
 
+        .input-group button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         @media (max-width: 500px) {
             .input-group button {
                 width: 100%;
@@ -487,10 +492,10 @@
         </div>
     </div>
 
-    <!-- إضافة Firebase هنا - السكربت الأصلي كامل مع الميزات المطلوبة -->
+    <!-- إضافة Firebase هنا - السكربت الأصلي كامل مع الميزات المطلوبة بدون أي تعديل -->
     <script type="module">
         // =============================================
-        // Firebase Configuration
+        // Firebase Configuration - كما هي بدون تعديل
         // =============================================
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
         import { getDatabase, ref, get, update, push } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
@@ -510,9 +515,7 @@
 
         let searching = false;
 
-        // =============================================
-        // نظام الاشتراكات Firebase
-        // =============================================
+        // ===== بصمة الجهاز =====
         function getDeviceFingerprint() {
             const data = [
                 navigator.userAgent,
@@ -529,9 +532,24 @@
             return "dev_" + Math.abs(hash);
         }
 
+        // ===== الحصول على IP =====
+        async function getUserIP() {
+            try {
+                const res = await fetch("https://api.ipify.org?format=json");
+                const data = await res.json();
+                return data.ip || "unknown";
+            } catch {
+                return "unknown";
+            }
+        }
+
+        // ===== تسجيل الدخول =====
         async function verifySerial() {
             const serial = document.getElementById("serialCode").value.trim();
             const errorDiv = document.getElementById("loginError");
+
+            errorDiv.style.display = "none";
+            errorDiv.textContent = "";
 
             if (!serial) {
                 errorDiv.style.display = "block";
@@ -539,100 +557,136 @@
                 return;
             }
 
-            const device = getDeviceFingerprint();
-            const snap = await get(ref(db, "serials/" + serial));
+            try {
+                const device = getDeviceFingerprint();
+                const ip = await getUserIP();
+                const snap = await get(ref(db, "serials/" + serial));
 
-            if (!snap.exists()) {
+                if (!snap.exists()) {
+                    errorDiv.style.display = "block";
+                    errorDiv.textContent = "رقم غير صالح";
+                    return;
+                }
+
+                const data = snap.val();
+
+                if (!data.active) {
+                    errorDiv.style.display = "block";
+                    errorDiv.textContent = "الاشتراك متوقف";
+                    return;
+                }
+
+                const expiry = new Date(data.expires);
+                if (isNaN(expiry.getTime())) {
+                    errorDiv.style.display = "block";
+                    errorDiv.textContent = "تاريخ انتهاء الاشتراك غير صحيح في Firebase";
+                    return;
+                }
+
+                if (new Date() > expiry) {
+                    errorDiv.style.display = "block";
+                    errorDiv.textContent = "انتهت صلاحية الاشتراك";
+                    return;
+                }
+
+                if (data.device && data.device !== device) {
+                    errorDiv.style.display = "block";
+                    errorDiv.textContent = "الاشتراك مستخدم على جهاز آخر";
+                    return;
+                }
+
+                await update(ref(db, "serials/" + serial), {
+                    device: device,
+                    last_ip: ip,
+                    last_login: new Date().toISOString()
+                });
+
+                await push(ref(db, "login_logs"), {
+                    serial: serial,
+                    device: device,
+                    ip: ip,
+                    time: new Date().toISOString(),
+                    userAgent: navigator.userAgent
+                });
+
+                localStorage.setItem("serial", serial);
+
+                document.getElementById("loginOverlay").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+            } catch (e) {
                 errorDiv.style.display = "block";
-                errorDiv.textContent = "رقم غير صالح";
-                return;
+                errorDiv.textContent = "حدث خطأ في الاتصال بقاعدة البيانات";
+                console.error(e);
             }
-
-            const data = snap.val();
-
-            if (!data.active) {
-                errorDiv.style.display = "block";
-                errorDiv.textContent = "الاشتراك متوقف";
-                return;
-            }
-
-            const expiry = new Date(data.expires);
-            if (new Date() > expiry) {
-                errorDiv.style.display = "block";
-                errorDiv.textContent = "انتهت صلاحية الاشتراك";
-                return;
-            }
-
-            if (data.device && data.device !== device) {
-                errorDiv.style.display = "block";
-                errorDiv.textContent = "الاشتراك مستخدم على جهاز آخر";
-                return;
-            }
-
-            await update(ref(db, "serials/" + serial), {
-                device: device
-            });
-
-            localStorage.setItem("serial", serial);
-            document.getElementById("loginOverlay").style.display = "none";
-            document.getElementById("mainContent").style.display = "block";
         }
 
         window.verifySerial = verifySerial;
 
-        // التحقق عند تحميل الصفحة
-        window.onload = async function() {
+        // ===== التحقق عند تحميل الصفحة =====
+        window.onload = async function () {
             const serial = localStorage.getItem("serial");
             if (!serial) return;
 
-            const device = getDeviceFingerprint();
-            const snap = await get(ref(db, "serials/" + serial));
+            try {
+                const device = getDeviceFingerprint();
+                const snap = await get(ref(db, "serials/" + serial));
 
-            if (!snap.exists()) return;
+                if (!snap.exists()) return;
 
-            const data = snap.val();
-            if (data.device === device) {
-                document.getElementById("loginOverlay").style.display = "none";
-                document.getElementById("mainContent").style.display = "block";
+                const data = snap.val();
+
+                if (data.device === device) {
+                    document.getElementById("loginOverlay").style.display = "none";
+                    document.getElementById("mainContent").style.display = "block";
+                }
+            } catch (e) {
+                console.error("Auto login error:", e);
             }
         };
 
-        // التحقق من عدد عمليات البحث
+        // ===== فحص الحد الأقصى للبحث =====
         async function checkSearchLimit(serial) {
             const snap = await get(ref(db, "serials/" + serial));
-            const data = snap.val();
+            if (!snap.exists()) return false;
 
-            if (data.search_count >= data.max_search) {
+            const data = snap.val();
+            const current = data.search_count || 0;
+            const max = data.max_search || 0;
+
+            if (current >= max) {
                 document.getElementById("results").innerHTML =
                     `<div class="error-box">انتهى عدد عمليات البحث المسموح</div>`;
                 return false;
             }
+
             return true;
         }
 
-        // زيادة عدد عمليات البحث
+        // ===== زيادة عداد البحث =====
         async function increaseSearchCount(serial) {
             const snap = await get(ref(db, "serials/" + serial));
-            const data = snap.val();
+            if (!snap.exists()) return;
 
+            const data = snap.val();
             await update(ref(db, "serials/" + serial), {
                 search_count: (data.search_count || 0) + 1
             });
         }
 
-        // تسجيل عمليات البحث
+        // ===== تسجيل كل عملية بحث =====
         async function logSearch(serial, nid) {
+            const ip = await getUserIP();
+
             await push(ref(db, "search_logs"), {
                 serial: serial,
                 nid: nid,
                 device: getDeviceFingerprint(),
+                ip: ip,
                 time: new Date().toISOString()
             });
         }
 
-        // =============================================
-        // السكربت الأصلي (بدون أي تعديل)
-        // =============================================
+        // ===== البحث =====
         async function searchWFP() {
             if (searching) return;
 
@@ -656,17 +710,23 @@
 
             const resultsDiv = document.getElementById("results");
             const loadingDiv = document.getElementById("loading");
+            const searchBtn = document.querySelector('.input-group button');
 
             loadingDiv.style.display = "block";
             resultsDiv.innerHTML = "";
+            if (searchBtn) searchBtn.disabled = true;
 
             try {
                 const proxy = "https://corsproxy.io/?";
                 const url = `https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/${nid}`;
 
                 const response = await fetch(proxy + encodeURIComponent(url));
-                const data = await response.json();
 
+                if (!response.ok) {
+                    throw new Error("فشل الاتصال");
+                }
+
+                const data = await response.json();
                 displayResults(data);
 
                 await increaseSearchCount(serial);
@@ -674,14 +734,17 @@
 
             } catch (e) {
                 resultsDiv.innerHTML = `<div class="error-box">فشل الاتصال</div>`;
+                console.error(e);
+            } finally {
+                loadingDiv.style.display = "none";
+                if (searchBtn) searchBtn.disabled = false;
+                searching = false;
             }
-
-            loadingDiv.style.display = "none";
-            searching = false;
         }
 
         window.searchWFP = searchWFP;
 
+        // ===== تسجيل الخروج =====
         function logout() {
             localStorage.removeItem("serial");
             location.reload();
@@ -689,16 +752,13 @@
 
         window.logout = logout;
 
-        // =============================================
-        // دالة عرض النتائج (كما هي)
-        // =============================================
+        // ===== عرض النتائج =====
         function displayResults(data) {
             const resultData = data.data || {};
             const metadata = data.metadata || {};
-            
+
             let html = '';
-            
-            // ===== رب الأسرة =====
+
             html += `
                 <div class="main-card">
                     <div class="card-title">
@@ -723,8 +783,7 @@
                     </div>
                 </div>
             `;
-            
-            // ===== الموقع =====
+
             html += `
                 <div class="main-card">
                     <div class="card-title">
@@ -741,11 +800,10 @@
                     </div>
                 </div>
             `;
-            
-            // ===== أفراد العائلة =====
+
             const familyMembers = resultData.family_members_information || [];
             const activeMembers = familyMembers.filter(m => !m.deleted);
-            
+
             if (activeMembers.length > 0) {
                 html += `
                     <div class="main-card">
@@ -753,7 +811,7 @@
                             <i class="fas fa-users"></i> أفراد العائلة (${activeMembers.length})
                         </div>
                 `;
-                
+
                 activeMembers.forEach((member, index) => {
                     html += `
                         <div class="family-member">
@@ -774,11 +832,10 @@
                         </div>
                     `;
                 });
-                
+
                 html += `</div>`;
             }
-            
-            // ===== معلومات تقنية =====
+
             html += `
                 <div class="main-card">
                     <div class="card-title">
@@ -795,7 +852,7 @@
                     </div>
                 </div>
             `;
-            
+
             document.getElementById('results').innerHTML = html;
         }
 
