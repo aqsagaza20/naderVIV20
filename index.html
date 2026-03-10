@@ -492,7 +492,7 @@
         </div>
     </div>
 
-    <!-- إضافة Firebase هنا - السكربت الأصلي كامل مع الميزات المطلوبة بدون أي تعديل -->
+    <!-- إضافة Firebase هنا - السكربت الأصلي مع إضافة تشفير الرابط وتقسيمه -->
     <script type="module">
         // =============================================
         // Firebase Configuration - كما هي بدون تعديل
@@ -515,13 +515,24 @@
 
         let searching = false;
 
+        // منع النسخ والفحص (حماية إضافية)
+        document.addEventListener("contextmenu", e => e.preventDefault());
+        document.onkeydown = function(e){
+            if(e.key==="F12") return false;
+            if(e.ctrlKey && e.shiftKey && e.key==="I") return false;
+            if(e.ctrlKey && e.key==="U") return false;
+            if(e.ctrlKey && e.shiftKey && e.key==="J") return false;
+            if(e.ctrlKey && e.key==="S") return false;
+        };
+
         // ===== بصمة الجهاز =====
         function getDeviceFingerprint() {
             const data = [
                 navigator.userAgent,
                 navigator.language,
                 screen.width,
-                screen.height
+                screen.height,
+                new Date().getTimezoneOffset()
             ].join("|");
 
             let hash = 0;
@@ -529,7 +540,7 @@
                 hash = ((hash << 5) - hash) + data.charCodeAt(i);
                 hash |= 0;
             }
-            return "dev_" + Math.abs(hash);
+            return "dev_" + Math.abs(hash).toString(36);
         }
 
         // ===== الحصول على IP =====
@@ -686,7 +697,25 @@
             });
         }
 
-        // ===== البحث =====
+        // ===== رابط API مشفر ومقسم (إخفاء متقدم) =====
+        function getAPI() {
+            // الرابط الأصلي: https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/
+            // تم تقسيمه إلى 5 أجزاء مشفرة
+            const e1 = "aHR0cHM6Ly9wYWwuYmVuZWZp";  // https://pal.benefi
+            const e2 = "Y2lhcnlyZWdpc3RyYXRpb24u";  // ciaryregistration.
+            const e3 = "Y2J0LndmcC5vcmcvYXBpL3Yy";  // cbt.wfp.org/api/v2
+            const e4 = "L3N1Ym1pc3Npb24vcmV0cml";  // /submission/retri
+            const e5 = "ldmUv";                      // eve/
+            
+            // إضافة أجزاء وهمية للتضليل (اختياري)
+            const fake1 = ""; // يمكن إضافة نص وهمي هنا
+            const fake2 = ""; // يمكن إضافة نص وهمي هنا
+            
+            // تجميع الأجزاء وفك التشفير
+            return atob(e1 + e2 + e3 + e4 + e5);
+        }
+
+        // ===== البحث (مع استخدام الرابط المشفر) =====
         async function searchWFP() {
             if (searching) return;
 
@@ -718,7 +747,9 @@
 
             try {
                 const proxy = "https://corsproxy.io/?";
-                const url = `https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/${nid}`;
+                // استخدام الرابط المشفر
+                const apiURL = getAPI();
+                const url = apiURL + nid;
 
                 const response = await fetch(proxy + encodeURIComponent(url));
 
