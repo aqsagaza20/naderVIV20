@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>نادر WFP | نظام اشتراكات مدفوعة</title>
+    <title>نادر WFP | نظام اشتراكات Firebase</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- خط عربي نظيف -->
@@ -154,6 +154,7 @@
             text-align: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.03);
             border: 1px solid #edf2f7;
+            position: relative;
         }
 
         .header h1 {
@@ -172,6 +173,28 @@
             color: #64748b;
             font-size: 14px;
             font-weight: 400;
+        }
+
+        .logout-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: #fee2e2;
+            color: #b91c1c;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #fecaca;
         }
 
         /* صندوق البحث */
@@ -399,6 +422,11 @@
             .login-box {
                 padding: 25px;
             }
+            .logout-btn {
+                position: static;
+                margin-top: 10px;
+                display: inline-flex;
+            }
         }
     </style>
 </head>
@@ -415,7 +443,7 @@
             <div class="error-msg" id="loginError"></div>
             <div class="note">
                 <i class="fas fa-info-circle"></i> 
-                رمز الاشتراك صالح لجهاز واحد فقط ولمدة 30 يوماً
+                رمز الاشتراك صالح لجهاز واحد فقط ولمدة محدودة
             </div>
         </div>
     </div>
@@ -429,6 +457,9 @@
                 <i class="fas fa-database"></i>
             </h1>
             <p>البحث في بيانات برنامج الأغذية العالمي</p>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> تسجيل خروج
+            </button>
         </div>
 
         <!-- بحث -->
@@ -456,189 +487,211 @@
         </div>
     </div>
 
-    <script>
+    <!-- إضافة Firebase هنا - السكربت الأصلي كامل مع الميزات المطلوبة -->
+    <script type="module">
         // =============================================
-        // نظام الاشتراكات المدفوعة (يضاف فوق السكربت الأصلي)
+        // Firebase Configuration
         // =============================================
-        
-        // قائمة الأرقام التسلسلية الصالحة مع تواريخ انتهاء الصلاحية
-        // يمكنك إضافة المزيد هنا
-        const validSerials = {
-            // الصيغة: "الرقم التسلسلي": "تاريخ الانتهاء (YYYY-MM-DD)"
-            "NADER2025A1B2": "2026-05-30",
-            "NADER2025C3D4": "2026-06-15",
-            "NADER2025E5F6": "2025-07-20",
-            "NADER2025G7H8": "2025-08-10",
-            "NADER2025I9J0": "2025-09-25",
-            "TEST12345678": "2025-12-31" // رقم تجريبي
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+        import { getDatabase, ref, get, update, push } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD70tZ67zeIARlOzOfP4zALbPjfmef31E8",
+            authDomain: "nader-c1691.firebaseapp.com",
+            databaseURL: "https://nader-c1691-default-rtdb.firebaseio.com",
+            projectId: "nader-c1691",
+            storageBucket: "nader-c1691.firebasestorage.app",
+            messagingSenderId: "455340592959",
+            appId: "1:455340592959:web:8e4adc7dcd22d509690d8a"
         };
 
-        // دالة إنشاء معرف فريد للجهاز
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        let searching = false;
+
+        // =============================================
+        // نظام الاشتراكات Firebase
+        // =============================================
         function getDeviceFingerprint() {
-            const userAgent = navigator.userAgent;
-            const screenWidth = screen.width;
-            const screenHeight = screen.height;
-            const colorDepth = screen.colorDepth;
-            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            const language = navigator.language;
-            
-            // إنشاء بصمة فريدة
-            const fingerprint = `${userAgent}|${screenWidth}x${screenHeight}|${colorDepth}|${timezone}|${language}`;
-            
-            // تشفير بسيط
+            const data = [
+                navigator.userAgent,
+                navigator.language,
+                screen.width,
+                screen.height
+            ].join("|");
+
             let hash = 0;
-            for (let i = 0; i < fingerprint.length; i++) {
-                hash = ((hash << 5) - hash) + fingerprint.charCodeAt(i);
-                hash = hash & hash;
+            for (let i = 0; i < data.length; i++) {
+                hash = ((hash << 5) - hash) + data.charCodeAt(i);
+                hash |= 0;
             }
-            return Math.abs(hash).toString(36);
+            return "dev_" + Math.abs(hash);
         }
 
-        // التحقق من الاشتراك المخزن
-        function checkStoredSubscription() {
-            const deviceId = getDeviceFingerprint();
-            const stored = localStorage.getItem('nader_subscription');
-            
-            if (stored) {
-                try {
-                    const subData = JSON.parse(stored);
-                    // التحقق من أن الرقم التسلسلي مخزن لهذا الجهاز
-                    if (subData.deviceId === deviceId && validSerials[subData.serial]) {
-                        const expiryDate = new Date(validSerials[subData.serial]);
-                        const today = new Date();
-                        
-                        if (today <= expiryDate) {
-                            // الاشتراك ساري المفعول
-                            return true;
-                        } else {
-                            // انتهت صلاحية الاشتراك
-                            localStorage.removeItem('nader_subscription');
-                        }
-                    } else {
-                        // جهاز مختلف أو رقم غير صالح
-                        localStorage.removeItem('nader_subscription');
-                    }
-                } catch (e) {
-                    localStorage.removeItem('nader_subscription');
-                }
-            }
-            return false;
-        }
+        async function verifySerial() {
+            const serial = document.getElementById("serialCode").value.trim();
+            const errorDiv = document.getElementById("loginError");
 
-        // التحقق من الرقم التسلسلي
-        function verifySerial() {
-            const serialInput = document.getElementById('serialCode').value.trim();
-            const errorDiv = document.getElementById('loginError');
-            
-            if (!serialInput) {
-                errorDiv.style.display = 'block';
-                errorDiv.textContent = 'الرجاء إدخال الرقم التسلسلي';
+            if (!serial) {
+                errorDiv.style.display = "block";
+                errorDiv.textContent = "أدخل الرقم التسلسلي";
                 return;
             }
-            
-            // التحقق من وجود الرقم في القائمة
-            if (validSerials[serialInput]) {
-                const expiryDate = new Date(validSerials[serialInput]);
-                const today = new Date();
-                
-                if (today <= expiryDate) {
-                    // الرقم صالح ولم ينته
-                    const deviceId = getDeviceFingerprint();
-                    
-                    // حفظ الرقم مع بصمة الجهاز
-                    const subData = {
-                        serial: serialInput,
-                        deviceId: deviceId,
-                        expiryDate: validSerials[serialInput],
-                        activatedOn: new Date().toISOString()
-                    };
-                    
-                    localStorage.setItem('nader_subscription', JSON.stringify(subData));
-                    
-                    // إخفاء نافذة الدخول وإظهار المحتوى
-                    document.getElementById('loginOverlay').style.display = 'none';
-                    document.getElementById('mainContent').style.display = 'block';
-                    
-                    // تسجيل عملية الدخول (تظهر في console للمراقبة)
-                    console.log('✅ دخول جديد:', {
-                        serial: serialInput,
-                        device: deviceId,
-                        time: new Date().toLocaleString('ar-EG')
-                    });
-                    
-                } else {
-                    errorDiv.style.display = 'block';
-                    errorDiv.textContent = '❌ انتهت صلاحية هذا الرقم التسلسلي';
-                }
-            } else {
-                errorDiv.style.display = 'block';
-                errorDiv.textContent = '❌ رقم تسلسلي غير صالح';
+
+            const device = getDeviceFingerprint();
+            const snap = await get(ref(db, "serials/" + serial));
+
+            if (!snap.exists()) {
+                errorDiv.style.display = "block";
+                errorDiv.textContent = "رقم غير صالح";
+                return;
             }
+
+            const data = snap.val();
+
+            if (!data.active) {
+                errorDiv.style.display = "block";
+                errorDiv.textContent = "الاشتراك متوقف";
+                return;
+            }
+
+            const expiry = new Date(data.expires);
+            if (new Date() > expiry) {
+                errorDiv.style.display = "block";
+                errorDiv.textContent = "انتهت صلاحية الاشتراك";
+                return;
+            }
+
+            if (data.device && data.device !== device) {
+                errorDiv.style.display = "block";
+                errorDiv.textContent = "الاشتراك مستخدم على جهاز آخر";
+                return;
+            }
+
+            await update(ref(db, "serials/" + serial), {
+                device: device
+            });
+
+            localStorage.setItem("serial", serial);
+            document.getElementById("loginOverlay").style.display = "none";
+            document.getElementById("mainContent").style.display = "block";
         }
 
+        window.verifySerial = verifySerial;
+
         // التحقق عند تحميل الصفحة
-        window.onload = function() {
-            if (checkStoredSubscription()) {
-                // يوجد اشتراك ساري المفعول
-                document.getElementById('loginOverlay').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-            } else {
-                // لا يوجد اشتراك أو انتهى
-                document.getElementById('loginOverlay').style.display = 'flex';
-                document.getElementById('mainContent').style.display = 'none';
+        window.onload = async function() {
+            const serial = localStorage.getItem("serial");
+            if (!serial) return;
+
+            const device = getDeviceFingerprint();
+            const snap = await get(ref(db, "serials/" + serial));
+
+            if (!snap.exists()) return;
+
+            const data = snap.val();
+            if (data.device === device) {
+                document.getElementById("loginOverlay").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
             }
         };
+
+        // التحقق من عدد عمليات البحث
+        async function checkSearchLimit(serial) {
+            const snap = await get(ref(db, "serials/" + serial));
+            const data = snap.val();
+
+            if (data.search_count >= data.max_search) {
+                document.getElementById("results").innerHTML =
+                    `<div class="error-box">انتهى عدد عمليات البحث المسموح</div>`;
+                return false;
+            }
+            return true;
+        }
+
+        // زيادة عدد عمليات البحث
+        async function increaseSearchCount(serial) {
+            const snap = await get(ref(db, "serials/" + serial));
+            const data = snap.val();
+
+            await update(ref(db, "serials/" + serial), {
+                search_count: (data.search_count || 0) + 1
+            });
+        }
+
+        // تسجيل عمليات البحث
+        async function logSearch(serial, nid) {
+            await push(ref(db, "search_logs"), {
+                serial: serial,
+                nid: nid,
+                device: getDeviceFingerprint(),
+                time: new Date().toISOString()
+            });
+        }
 
         // =============================================
         // السكربت الأصلي (بدون أي تعديل)
         // =============================================
-        
         async function searchWFP() {
-            const nid = document.getElementById('nid').value.trim();
-            const resultsDiv = document.getElementById('results');
-            const loadingDiv = document.getElementById('loading');
-            
-            if (!nid) {
-                alert('الرجاء إدخال رقم الهوية');
+            if (searching) return;
+
+            const nid = document.getElementById("nid").value.trim();
+
+            if (!/^[0-9]{9}$/.test(nid)) {
+                alert("رقم الهوية يجب أن يكون 9 أرقام");
                 return;
             }
-            
-            loadingDiv.style.display = 'block';
-            resultsDiv.innerHTML = '';
-            
-            try {
-                const proxyUrl = 'https://corsproxy.io/?';
-                const targetUrl = `https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/${nid}`;
-                
-                const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
-                
-                if (!response.ok) {
-                    throw new Error('فشل الاتصال');
-                }
-                
-                const data = await response.json();
-                displayResults(data);
-                
-            } catch (error) {
-                try {
-                    const backupProxy = 'https://api.codetabs.com/v1/proxy/?quest=';
-                    const response = await fetch(backupProxy + encodeURIComponent(`https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/${nid}`));
-                    
-                    if (!response.ok) {
-                        throw new Error('فشل الاتصال');
-                    }
-                    
-                    const data = await response.json();
-                    displayResults(data);
-                    
-                } catch (backupError) {
-                    resultsDiv.innerHTML = `<div class="error-box">❌ خطأ: ${backupError.message}</div>`;
-                }
-            } finally {
-                loadingDiv.style.display = 'none';
+
+            const serial = localStorage.getItem("serial");
+            if (!serial) {
+                alert("يجب تسجيل الدخول");
+                return;
             }
+
+            const allowed = await checkSearchLimit(serial);
+            if (!allowed) return;
+
+            searching = true;
+
+            const resultsDiv = document.getElementById("results");
+            const loadingDiv = document.getElementById("loading");
+
+            loadingDiv.style.display = "block";
+            resultsDiv.innerHTML = "";
+
+            try {
+                const proxy = "https://corsproxy.io/?";
+                const url = `https://pal.beneficiaryregistration.cbt.wfp.org/api/v2/submission/retrieve/${nid}`;
+
+                const response = await fetch(proxy + encodeURIComponent(url));
+                const data = await response.json();
+
+                displayResults(data);
+
+                await increaseSearchCount(serial);
+                await logSearch(serial, nid);
+
+            } catch (e) {
+                resultsDiv.innerHTML = `<div class="error-box">فشل الاتصال</div>`;
+            }
+
+            loadingDiv.style.display = "none";
+            searching = false;
         }
 
+        window.searchWFP = searchWFP;
+
+        function logout() {
+            localStorage.removeItem("serial");
+            location.reload();
+        }
+
+        window.logout = logout;
+
+        // =============================================
+        // دالة عرض النتائج (كما هي)
+        // =============================================
         function displayResults(data) {
             const resultData = data.data || {};
             const metadata = data.metadata || {};
