@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نادر - الباحث عن بيانات WFP</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- الخلفية المتحركة -->
+    <div class="animated-bg">
+        <div class="gradient-bg"></div>
+    </div>
+
+    <!-- شريط التنقل -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-search"></i> نادر WFP
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">عن الموقع</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/YOUR_USERNAME/YOUR_REPO" target="_blank">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="container">
+        <div class="main-card">
+            <div class="logo">
+                <i class="fas fa-dragon fa-4x" style="color: #764ba2;"></i>
+                <h1>نادر <span class="text-gradient">WFP</span></h1>
+                <p class="lead text-muted">الباحث الآلي عن بيانات المستفيدين</p>
+            </div>
+
+            <div class="search-box">
+                <form id="searchForm" onsubmit="event.preventDefault(); searchWFP();">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-md-9">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-white border-end-0">
+                                    <i class="fas fa-id-card text-primary"></i>
+                                </span>
+                                <input type="text" class="form-control border-start-0" 
+                                       id="nidInput" placeholder="أدخل رقم الهوية (مثال: 926699778)" 
+                                       pattern="[0-9]+" title="الرجاء إدخال أرقام فقط" required>
+                            </div>
+                            <small class="text-muted"><i class="fas fa-info-circle"></i> أدخل 9 أرقام على الأقل</small>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn-search" id="searchBtn">
+                                <i class="fas fa-search"></i> بحث
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- شريط التقدم (يظهر أثناء البحث) -->
+                <div id="progressBar" class="progress mt-4 d-none">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                         style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        جاري البحث...
+                    </div>
+                </div>
+            </div>
+
+            <!-- نتائج سريعة (تظهر بعد البحث) -->
+            <div id="quickResults" class="mt-5 d-none">
+                <div class="alert alert-info">
+                    <i class="fas fa-spinner fa-spin"></i> جاري تحميل النتائج...
+                </div>
+            </div>
+
+            <!-- المميزات -->
+            <div class="features">
+                <h2 class="text-center mb-4">مميزات الباحث</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="feature-item">
+                            <i class="fas fa-bolt feature-icon"></i>
+                            <h4>بحث سريع</h4>
+                            <p>نتائج فورية خلال ثواني</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-item">
+                            <i class="fas fa-database feature-icon"></i>
+                            <h4>بيانات شاملة</h4>
+                            <p>جميع تفاصيل الأسرة والمستفيدين</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-item">
+                            <i class="fas fa-shield-alt feature-icon"></i>
+                            <h4>آمن وموثوق</h4>
+                            <p>مصدر رسمي من WFP</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- التذييل -->
+    <footer class="footer">
+        <p>جميع الحقوق محفوظة &copy; 2024 - <i class="fas fa-heart" style="color: #ff4444;"></i> نادر WFP</p>
+    </footer>
+
+    <!-- نافذة منبثقة للنتائج -->
+    <div class="modal fade" id="resultModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h5 class="modal-title"><i class="fas fa-file-alt"></i> نتيجة البحث</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="resultContent">
+                    <!-- النتائج تظهر هنا -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                    <button type="button" class="btn btn-primary" onclick="downloadJSON()">
+                        <i class="fas fa-download"></i> تحميل JSON
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast للإشعارات -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="fas fa-bell me-2"></i>
+                <strong class="me-auto">إشعار</strong>
+                <small>الآن</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+                رسالة الإشعار
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
