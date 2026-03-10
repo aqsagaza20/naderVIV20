@@ -492,7 +492,7 @@
         </div>
     </div>
 
-    <!-- إضافة Firebase هنا - السكربت الأصلي مع إضافة تشفير الرابط وتحسين البروكسي للهاتف -->
+    <!-- إضافة Firebase هنا - السكربت الأصلي مع تحسين البروكسي وإضافة Cache -->
     <script type="module">
         // =============================================
         // Firebase Configuration - كما هي بدون تعديل
@@ -515,6 +515,7 @@
 
         let searching = false;
         let lastSearchTime = 0; // للتأخير بين عمليات البحث
+        const searchCache = {}; // تخزين نتائج البحث لتجنب الطلبات المتكررة
 
         // منع النسخ والفحص (حماية إضافية)
         document.addEventListener("contextmenu", e => e.preventDefault());
@@ -712,22 +713,22 @@
             return atob(e1 + e2 + e3 + e4 + e5);
         }
 
-        // ===== دالة للبحث باستخدام عدة بروكسيات احتياطية (مثالية للهاتف) =====
+        // ===== دالة للبحث باستخدام عدة بروكسيات احتياطية (تم تحسينها) =====
         async function fetchWithBackup(url) {
-            // قائمة بروكسيات قوية تعمل من الهاتف
+            // قائمة البروكسيات الصحيحة التي تعمل بدون مفاتيح
             const proxies = [
                 "https://corsproxy.io/?",
                 "https://api.allorigins.win/raw?url=",
-                "https://cors.isomorphic-git.org/",
-                "https://proxy.cors.sh/",
-                "https://cors-anywhere.herokuapp.com/"
+                "https://cors.isomorphic-git.org/"
             ];
             
             let lastError = null;
             
             for (const proxy of proxies) {
                 try {
-                    const response = await fetch(proxy + encodeURIComponent(url));
+                    // بعض البروكسيات لا تعمل مع encodeURIComponent
+                    const fullUrl = proxy + url;
+                    const response = await fetch(fullUrl);
                     
                     if (response.ok) {
                         const data = await response.json();
@@ -742,9 +743,16 @@
             throw new Error("جميع البروكسيات فشلت");
         }
 
-        // ===== البحث (مع تحسين البروكسي للهاتف والتأخير بين العمليات) =====
+        // ===== البحث (مع تحسين البروكسي وإضافة Cache) =====
         async function searchWFP() {
             if (searching) return;
+
+            const nid = document.getElementById("nid").value.trim();
+
+            if (!/^[0-9]{9}$/.test(nid)) {
+                alert("رقم الهوية يجب أن يكون 9 أرقام");
+                return;
+            }
 
             // التأخير بين عمليات البحث (حماية من الحظر)
             const now = Date.now();
@@ -754,13 +762,6 @@
             }
             lastSearchTime = now;
 
-            const nid = document.getElementById("nid").value.trim();
-
-            if (!/^[0-9]{9}$/.test(nid)) {
-                alert("رقم الهوية يجب أن يكون 9 أرقام");
-                return;
-            }
-
             const serial = localStorage.getItem("serial");
             if (!serial) {
                 alert("يجب تسجيل الدخول");
@@ -769,6 +770,14 @@
 
             const allowed = await checkSearchLimit(serial);
             if (!allowed) return;
+
+            // التحقق من وجود النتائج في Cache
+            if (searchCache[nid]) {
+                displayResults(searchCache[nid]);
+                await increaseSearchCount(serial);
+                await logSearch(serial, nid);
+                return;
+            }
 
             searching = true;
 
@@ -785,7 +794,7 @@
                 const apiURL = getAPI();
                 const url = apiURL + nid;
 
-                // استخدام دالة البحث مع البروكسيات المتعددة
+                // استخدام دالة البحث مع البروكسيات المحسنة
                 const data = await fetchWithBackup(url);
 
                 // فحص وجود البيانات
@@ -794,6 +803,9 @@
                         `<div class="error-box">لا توجد بيانات لهذا الرقم</div>`;
                     return;
                 }
+
+                // تخزين النتائج في Cache
+                searchCache[nid] = data;
 
                 displayResults(data);
 
